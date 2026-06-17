@@ -557,10 +557,3 @@ if show_table:
 
 buffer = BytesIO()
 summary.to_excel(buffer, index=False)
-
-st.download_button(
-    "Скачать сводную таблицу Excel",
-    data=buffer.getvalue(),
-    file_name="segmentation_summary.xlsx",
-    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-)
