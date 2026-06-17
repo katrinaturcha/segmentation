@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d6c24a3f-3438-4523-bed9-0f1dad16c985" name="Changes" comment="delete_pivot" />
+    <list default="true" id="d6c24a3f-3438-4523-bed9-0f1dad16c985" name="Changes" comment="margincell">
+      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -127,7 +129,15 @@
       <option name="project" value="LOCAL" />
       <updated>1781683835227</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="margincell">
+      <option name="closed" value="true" />
+      <created>1781684337271</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1781684337271</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -140,6 +150,7 @@
     <MESSAGE value="segments" />
     <MESSAGE value="proftable_delete" />
     <MESSAGE value="delete_pivot" />
-    <option name="LAST_COMMIT_MESSAGE" value="delete_pivot" />
+    <MESSAGE value="margincell" />
+    <option name="LAST_COMMIT_MESSAGE" value="margincell" />
   </component>
 </project>

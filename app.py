@@ -60,6 +60,13 @@ SEGMENTS = [
         "vesa": "400x400, 600x500, 600x600, 700x400, 700x500, 700x700, 800x600, 900x600, Prof 900x600, 1000x600, 1000x800, 1500x600",
     },
 ]
+SEGMENT_BY_DIAGONAL = {
+    '17"-49"': "BASIC",
+    '32"-65"': "LIGHT",
+    '43"-75"': "STANDART",
+    '60"-100"': "HEAVY",
+    '75"-120"': "HEAVY XL",
+}
 
 SEGMENT_BY_LOAD = {
     30: "BASIC",
@@ -92,7 +99,37 @@ REQUIRED_COLUMNS = [
     "максимальная суммарная нагрузка (с полками) кг",
     "описание",
 ]
+def normalize_diagonal_category(value) -> Optional[str]:
+    if pd.isna(value):
+        return None
 
+    text = str(value).strip()
+    text = text.replace("“", '"').replace("”", '"').replace("″", '"')
+    text = text.replace("–", "-").replace("—", "-")
+    text = re.sub(r"\s+", "", text)
+
+    mapping = {
+        '17"-49"': '17"-49"',
+        '17-49': '17"-49"',
+        '17"-55"': '17"-49"',
+        '17-55': '17"-49"',
+
+        '32"-65"': '32"-65"',
+        '32-65': '32"-65"',
+
+        '43"-75"': '43"-75"',
+        '40"-75"': '43"-75"',
+        '43-75': '43"-75"',
+        '40-75': '43"-75"',
+
+        '60"-100"': '60"-100"',
+        '60-100': '60"-100"',
+
+        '75"-120"': '75"-120"',
+        '75-120': '75"-120"',
+    }
+
+    return mapping.get(text)
 
 def extract_number(value) -> Optional[float]:
     if pd.isna(value):
@@ -118,10 +155,10 @@ def normalize_load_category(value) -> Optional[int]:
 
 
 def detect_segment(row: pd.Series) -> str:
-    category_load = normalize_load_category(row.get("Load capacity category kg"))
+    diagonal_category = normalize_diagonal_category(row.get("Diagonal category"))
 
-    if category_load in SEGMENT_BY_LOAD:
-        return SEGMENT_BY_LOAD[category_load]
+    if diagonal_category in SEGMENT_BY_DIAGONAL:
+        return SEGMENT_BY_DIAGONAL[diagonal_category]
 
     return "НЕ ОПРЕДЕЛЕНО"
 
