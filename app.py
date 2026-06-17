@@ -19,11 +19,46 @@ APP_DIR = Path(__file__).resolve().parent
 DATA_FILE = APP_DIR / "sample_test_onkron.xlsx"
 
 SEGMENTS = [
-    {"name": "BASIC", "load_label": "max 30 кг", "load_max": 30, "diagonal": '17–49"', "margin": "12%", "vesa": "75x75, 100x100, 200x100, 200x200, 300x200, 300x300, 400x200, 400x300, 400x400"},
-    {"name": "LIGHT", "load_label": "max 60 кг", "load_max": 60, "diagonal": '32–65"', "margin": "20%", "vesa": "200x100, 200x200, 300x200, 300x300, 400x200, 400x300, 400x400, 400x500, 600x300, 600x400"},
-    {"name": "STANDART", "load_label": "max 70 кг", "load_max": 70, "diagonal": '43–75"', "margin": "25%", "vesa": "300x300, 400x200, 400x300, 400x400, 500x400, 500x500, 600x300, 600x400, Prof 600x500, 600x600, 700x400, 700x500, 700x700, 800x400"},
-    {"name": "HEAVY", "load_label": "max 120 кг", "load_max": 120, "diagonal": '60–100"', "margin": "30%", "vesa": "400x400, 500x400, 500x500, 600x300, 600x400, 600x500, 700x700, 800x400, 800x600, Prof 900x600, 1000x600, 1000x800, 1100x600"},
-    {"name": "HEAVY XL", "load_label": "max 150 кг", "load_max": 150, "diagonal": '75–120"', "margin": "40%", "vesa": "400x400, 600x500, 600x600, 700x400, 700x500, 700x700, 800x600, 900x600, Prof 900x600, 1000x600, 1000x800, 1500x600"},
+    {
+        "name": "BASIC",
+        "load_label": "30 kg",
+        "load_max": 30,
+        "diagonal": '17"-49"',
+        "margin": "12%",
+        "vesa": "75x75, 100x100, 200x100, 200x200, 300x200, 300x300, 400x200, 400x300, 400x400",
+    },
+    {
+        "name": "LIGHT",
+        "load_label": "60 kg",
+        "load_max": 60,
+        "diagonal": '32"-65"',
+        "margin": "20%",
+        "vesa": "200x100, 200x200, 300x200, 300x300, 400x200, 400x300, 400x400, 400x500, 600x300, 600x400",
+    },
+    {
+        "name": "STANDART",
+        "load_label": "70 kg",
+        "load_max": 70,
+        "diagonal": '43"-75"',
+        "margin": "25%",
+        "vesa": "300x300, 400x200, 400x300, 400x400, 500x400, 500x500, 600x300, 600x400, Prof 600x500, 600x600, 700x400, 700x500, 700x700, 800x400",
+    },
+    {
+        "name": "HEAVY",
+        "load_label": "120 kg",
+        "load_max": 120,
+        "diagonal": '60"-100"',
+        "margin": "30%",
+        "vesa": "400x400, 500x400, 500x500, 600x300, 600x400, 600x500, 700x700, 800x400, 800x600, Prof 900x600, 1000x600, 1000x800, 1100x600",
+    },
+    {
+        "name": "HEAVY XL",
+        "load_label": "150 kg",
+        "load_max": 150,
+        "diagonal": '75"-120"',
+        "margin": "40%",
+        "vesa": "400x400, 600x500, 600x600, 700x400, 700x500, 700x700, 800x600, 900x600, Prof 900x600, 1000x600, 1000x800, 1500x600",
+    },
 ]
 
 SEGMENT_BY_LOAD = {
@@ -87,11 +122,6 @@ def detect_segment(row: pd.Series) -> str:
 
     if category_load in SEGMENT_BY_LOAD:
         return SEGMENT_BY_LOAD[category_load]
-
-    raw_load = normalize_load_category(row.get("максимальная нагрузка кг"))
-
-    if raw_load in SEGMENT_BY_LOAD:
-        return SEGMENT_BY_LOAD[raw_load]
 
     return "НЕ ОПРЕДЕЛЕНО"
 
@@ -296,7 +326,11 @@ def render_matrix(df: pd.DataFrame) -> None:
         html_parts.append(f"<tr><td class='type-cell'>{html.escape(type_name)}</td>")
 
         for s in SEGMENTS:
-            cell_df = df[(df["Type"] == type_name) & (df["segment"] == s["name"])]
+            cell_df = df[
+                (df["Type"] == type_name)
+                & (df["segment"] == s["name"])
+            ]
+
             count = len(cell_df)
             cls = heat_class(count, max_count)
 
@@ -305,7 +339,11 @@ def render_matrix(df: pd.DataFrame) -> None:
                 for _, row in cell_df.iterrows()
             )
 
-            content = f"<div class='count'>{count}</div><div class='products-grid'>{products}</div>"
+            content = (
+                f"<div class='count'>{count}</div>"
+                f"<div class='products-grid'>{products}</div>"
+            )
+
             html_parts.append(f"<td class='data-cell {cls}'>{content}</td>")
 
         html_parts.append("</tr>")

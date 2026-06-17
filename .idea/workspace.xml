@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d6c24a3f-3438-4523-bed9-0f1dad16c985" name="Changes" comment="fspro" />
+    <list default="true" id="d6c24a3f-3438-4523-bed9-0f1dad16c985" name="Changes" comment="max_load">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sample_test_onkron.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/sample_test_onkron.xlsx" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -95,7 +99,15 @@
       <option name="project" value="LOCAL" />
       <updated>1781681708416</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="max_load">
+      <option name="closed" value="true" />
+      <created>1781682883546</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1781682883546</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -104,6 +116,7 @@
     <MESSAGE value="raw_data" />
     <MESSAGE value="prepare_df" />
     <MESSAGE value="fspro" />
-    <option name="LAST_COMMIT_MESSAGE" value="fspro" />
+    <MESSAGE value="max_load" />
+    <option name="LAST_COMMIT_MESSAGE" value="max_load" />
   </component>
 </project>
