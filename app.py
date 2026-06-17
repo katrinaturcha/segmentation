@@ -204,8 +204,8 @@ def product_tile_html(row: pd.Series) -> str:
     vesa = html.escape(safe_text(row.get("максимальная VESA")))
 
     tooltip = html.escape(
-        f"максимальная диагональ: {diagonal} | "
-        f"максимальная нагрузка кг: {load} | "
+        f"максимальная диагональ: {diagonal}\n"
+        f"максимальная нагрузка кг: {load}\n"
         f"максимальная VESA: {vesa}",
         quote=True,
     )
