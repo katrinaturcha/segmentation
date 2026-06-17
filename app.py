@@ -78,6 +78,7 @@ DEFAULT_TYPE_ORDER = [
     "universal aluminum",
     "motorised",
     "professional | touch panel",
+    "PRO"
 ]
 
 REQUIRED_COLUMNS = [
