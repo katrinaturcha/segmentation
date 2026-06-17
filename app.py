@@ -97,12 +97,12 @@ def detect_segment(row: pd.Series) -> str:
 
 
 @st.cache_data(show_spinner=False)
-def prepare_df(file_path: str) -> pd.DataFrame:
+def prepare_df(file_path: str, file_mtime: float) -> pd.DataFrame:
     df = pd.read_excel(file_path)
+
     df.columns = [str(c).strip() for c in df.columns]
 
     missing = [c for c in REQUIRED_COLUMNS if c not in df.columns]
-
     if missing:
         st.warning("В файле нет части ожидаемых столбцов: " + ", ".join(missing))
 
@@ -496,7 +496,7 @@ if not DATA_FILE.exists():
     st.stop()
 
 with st.spinner("Загружаю файл и картинки..."):
-    df = prepare_df(str(DATA_FILE))
+    df = prepare_df(str(DATA_FILE), DATA_FILE.stat().st_mtime)
 
 summary = (
     df.pivot_table(index="Type", columns="segment", values="sku", aggfunc="count", fill_value=0)
