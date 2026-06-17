@@ -509,7 +509,8 @@ st.markdown(
         background: #34c8c6;
         color: #fff;
         font-weight: 800;
-        height: 44px;
+        font-size: 12px;
+        white-space: nowrap;
     }
     </style>
 
