@@ -22,53 +22,46 @@ SEGMENTS = [
     {
         "name": "BASIC",
         "load_label": "30 kg",
-        "load_max": 30,
+        "diagonal": '17"-55"',
         "margin": "12%",
         "vesa": "75x75, 100x100, 200x100, 200x200, 300x200, 300x300, 400x200, 400x300, 400x400",
     },
     {
         "name": "LIGHT",
         "load_label": "60 kg",
-        "load_max": 60,
+        "diagonal": '32"-65"',
         "margin": "20%",
         "vesa": "200x100, 200x200, 300x200, 300x300, 400x200, 400x300, 400x400, 400x500, 600x300, 600x400",
     },
     {
         "name": "STANDART",
         "load_label": "70 kg",
-        "load_max": 70,
+        "diagonal": '40"-75"',
         "margin": "25%",
         "vesa": "300x300, 400x200, 400x300, 400x400, 500x400, 500x500, 600x300, 600x400, Prof 600x500, 600x600, 700x400, 700x500, 700x700, 800x400",
     },
     {
         "name": "HEAVY",
         "load_label": "120 kg",
-        "load_max": 120,
+        "diagonal": '60"-100"',
         "margin": "30%",
         "vesa": "400x400, 500x400, 500x500, 600x300, 600x400, 600x500, 700x700, 800x400, 800x600, Prof 900x600, 1000x600, 1000x800, 1100x600",
     },
     {
         "name": "HEAVY XL",
         "load_label": "150 kg",
-        "load_max": 150,
+        "diagonal": '75"-120"',
         "margin": "40%",
         "vesa": "400x400, 600x500, 600x600, 700x400, 700x500, 700x700, 800x600, 900x600, Prof 900x600, 1000x600, 1000x800, 1500x600",
     },
 ]
+
 SEGMENT_BY_DIAGONAL = {
     '17"-55"': "BASIC",
     '32"-65"': "LIGHT",
-    '43"-75"': "STANDART",
+    '40"-75"': "STANDART",
     '60"-100"': "HEAVY",
     '75"-120"': "HEAVY XL",
-}
-
-SEGMENT_BY_LOAD = {
-    30: "BASIC",
-    60: "LIGHT",
-    70: "STANDART",
-    120: "HEAVY",
-    150: "HEAVY XL",
 }
 
 DEFAULT_TYPE_ORDER = [
@@ -78,6 +71,7 @@ DEFAULT_TYPE_ORDER = [
     "universal aluminum",
     "motorised",
     "professional | touch panel",
+    "pro",
 ]
 
 REQUIRED_COLUMNS = [
@@ -94,6 +88,8 @@ REQUIRED_COLUMNS = [
     "максимальная суммарная нагрузка (с полками) кг",
     "описание",
 ]
+
+
 def normalize_diagonal_category(value) -> Optional[str]:
     if pd.isna(value):
         return None
@@ -104,49 +100,30 @@ def normalize_diagonal_category(value) -> Optional[str]:
     text = re.sub(r"\s+", "", text)
 
     mapping = {
-        '17"-49"': '17"-49"',
-        '17-49': '17"-49"',
-        '17"-55"': '17"-49"',
-        '17-55': '17"-49"',
+        '17"-55"': '17"-55"',
+        '17-55': '17"-55"',
+        '17"55"': '17"-55"',
 
         '32"-65"': '32"-65"',
         '32-65': '32"-65"',
+        '32"65"': '32"-65"',
 
-        '43"-75"': '43"-75"',
-        '40"-75"': '43"-75"',
-        '43-75': '43"-75"',
-        '40-75': '43"-75"',
+        '40"-75"': '40"-75"',
+        '40-75': '40"-75"',
+        '40"75"': '40"-75"',
+        '43"-75"': '40"-75"',
+        '43-75': '40"-75"',
 
         '60"-100"': '60"-100"',
         '60-100': '60"-100"',
+        '60"100"': '60"-100"',
 
         '75"-120"': '75"-120"',
         '75-120': '75"-120"',
+        '75"120"': '75"-120"',
     }
 
     return mapping.get(text)
-
-def extract_number(value) -> Optional[float]:
-    if pd.isna(value):
-        return None
-
-    text = str(value).replace(",", ".")
-    match = re.search(r"\d+(?:\.\d+)?", text)
-
-    return float(match.group()) if match else None
-
-
-def normalize_load_category(value) -> Optional[int]:
-    number = extract_number(value)
-
-    if number is None:
-        return None
-
-    for max_load in [30, 60, 70, 120, 150]:
-        if number <= max_load:
-            return max_load
-
-    return 150
 
 
 def detect_segment(row: pd.Series) -> str:
@@ -161,7 +138,6 @@ def detect_segment(row: pd.Series) -> str:
 @st.cache_data(show_spinner=False)
 def prepare_df(file_path: str, file_mtime: float) -> pd.DataFrame:
     df = pd.read_excel(file_path)
-
     df.columns = [str(c).strip() for c in df.columns]
 
     missing = [c for c in REQUIRED_COLUMNS if c not in df.columns]
@@ -343,27 +319,14 @@ def render_matrix(df: pd.DataFrame) -> None:
     html_parts.append("<tr><td class='left-title'>VESA</td>")
 
     for s in SEGMENTS:
-        html_parts.append(f"<td class='vesa-cell'>{s['vesa']}</td>")
+        html_parts.append(f"<td class='vesa-cell'>{html.escape(s['vesa'])}</td>")
 
     html_parts.append("</tr>")
 
     html_parts.append("<tr><td class='left-title'>РАЗМЕР ЭКРАНОВ</td>")
 
     for s in SEGMENTS:
-        segment_df = df[df["segment"] == s["name"]]
-
-        diagonal = (
-            segment_df["Diagonal category"]
-            .dropna()
-            .astype(str)
-            .mode()
-        )
-
-        diagonal_text = diagonal.iloc[0] if len(diagonal) else "-"
-
-        html_parts.append(
-            f"<td class='top-cell'><b>{html.escape(diagonal_text)}</b></td>"
-        )
+        html_parts.append(f"<td class='top-cell'><b>{html.escape(s['diagonal'])}</b></td>")
 
     html_parts.append("</tr>")
 
@@ -432,6 +395,7 @@ st.markdown(
         color: #fff;
         width: 175px;
         font-size: 14px;
+        white-space: nowrap;
     }
 
     .segment-head {
@@ -543,12 +507,6 @@ st.markdown(
         cursor: pointer;
     }
 
-    .more {
-        font-size: 10px;
-        margin-top: 6px;
-        color: #333;
-    }
-
     .margin-title,
     .margin-cell {
         background: #34c8c6;
@@ -570,6 +528,11 @@ st.markdown(
 with st.sidebar:
     st.header("Настройки")
     st.caption(f"Файл данных: {DATA_FILE.name}")
+
+    if st.button("Обновить данные"):
+        st.cache_data.clear()
+        st.rerun()
+
     show_table = st.checkbox("Показать исходную таблицу", value=False)
 
 if not DATA_FILE.exists():
@@ -596,10 +559,16 @@ col3.metric("Не определено", int((df["segment"] == "НЕ ОПРЕД�
 
 render_matrix(df)
 
-
 if show_table:
     st.subheader("Исходные данные")
     st.dataframe(df, use_container_width=True)
 
 buffer = BytesIO()
 summary.to_excel(buffer, index=False)
+
+st.download_button(
+    "Скачать сводную таблицу Excel",
+    data=buffer.getvalue(),
+    file_name="segmentation_summary.xlsx",
+    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+)
