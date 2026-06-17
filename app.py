@@ -23,7 +23,6 @@ SEGMENTS = [
         "name": "BASIC",
         "load_label": "30 kg",
         "load_max": 30,
-        "diagonal": '17"-49"',
         "margin": "12%",
         "vesa": "75x75, 100x100, 200x100, 200x200, 300x200, 300x300, 400x200, 400x300, 400x400",
     },
@@ -31,7 +30,6 @@ SEGMENTS = [
         "name": "LIGHT",
         "load_label": "60 kg",
         "load_max": 60,
-        "diagonal": '32"-65"',
         "margin": "20%",
         "vesa": "200x100, 200x200, 300x200, 300x300, 400x200, 400x300, 400x400, 400x500, 600x300, 600x400",
     },
@@ -39,7 +37,6 @@ SEGMENTS = [
         "name": "STANDART",
         "load_label": "70 kg",
         "load_max": 70,
-        "diagonal": '43"-75"',
         "margin": "25%",
         "vesa": "300x300, 400x200, 400x300, 400x400, 500x400, 500x500, 600x300, 600x400, Prof 600x500, 600x600, 700x400, 700x500, 700x700, 800x400",
     },
@@ -47,7 +44,6 @@ SEGMENTS = [
         "name": "HEAVY",
         "load_label": "120 kg",
         "load_max": 120,
-        "diagonal": '60"-100"',
         "margin": "30%",
         "vesa": "400x400, 500x400, 500x500, 600x300, 600x400, 600x500, 700x700, 800x400, 800x600, Prof 900x600, 1000x600, 1000x800, 1100x600",
     },
@@ -55,13 +51,12 @@ SEGMENTS = [
         "name": "HEAVY XL",
         "load_label": "150 kg",
         "load_max": 150,
-        "diagonal": '75"-120"',
         "margin": "40%",
         "vesa": "400x400, 600x500, 600x600, 700x400, 700x500, 700x700, 800x600, 900x600, Prof 900x600, 1000x600, 1000x800, 1500x600",
     },
 ]
 SEGMENT_BY_DIAGONAL = {
-    '17"-49"': "BASIC",
+    '17"-55"': "BASIC",
     '32"-65"': "LIGHT",
     '43"-75"': "STANDART",
     '60"-100"': "HEAVY",
@@ -355,7 +350,20 @@ def render_matrix(df: pd.DataFrame) -> None:
     html_parts.append("<tr><td class='left-title'>РАЗМЕР ЭКРАНОВ</td>")
 
     for s in SEGMENTS:
-        html_parts.append(f"<td class='top-cell'><b>{s['diagonal']}</b></td>")
+        segment_df = df[df["segment"] == s["name"]]
+
+        diagonal = (
+            segment_df["Diagonal category"]
+            .dropna()
+            .astype(str)
+            .mode()
+        )
+
+        diagonal_text = diagonal.iloc[0] if len(diagonal) else "-"
+
+        html_parts.append(
+            f"<td class='top-cell'><b>{html.escape(diagonal_text)}</b></td>"
+        )
 
     html_parts.append("</tr>")
 

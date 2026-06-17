@@ -4,8 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d6c24a3f-3438-4523-bed9-0f1dad16c985" name="Changes" comment="margincell">
-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+    <list default="true" id="d6c24a3f-3438-4523-bed9-0f1dad16c985" name="Changes" comment="detect_segment_DIAG">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -137,7 +137,15 @@
       <option name="project" value="LOCAL" />
       <updated>1781684337271</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="detect_segment_DIAG">
+      <option name="closed" value="true" />
+      <created>1781689320740</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1781689320740</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -151,6 +159,7 @@
     <MESSAGE value="proftable_delete" />
     <MESSAGE value="delete_pivot" />
     <MESSAGE value="margincell" />
-    <option name="LAST_COMMIT_MESSAGE" value="margincell" />
+    <MESSAGE value="detect_segment_DIAG" />
+    <option name="LAST_COMMIT_MESSAGE" value="detect_segment_DIAG" />
   </component>
 </project>
