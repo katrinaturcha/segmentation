@@ -56,12 +56,28 @@ SEGMENTS = [
     },
 ]
 
+SEGMENT_ORDER = {
+    "BASIC": 1,
+    "LIGHT": 2,
+    "STANDART": 3,
+    "HEAVY": 4,
+    "HEAVY XL": 5,
+}
+
 SEGMENT_BY_DIAGONAL = {
     '17"-55"': "BASIC",
     '32"-65"': "LIGHT",
     '40"-75"': "STANDART",
     '60"-100"': "HEAVY",
     '75"-120"': "HEAVY XL",
+}
+
+SEGMENT_BY_LOAD = {
+    30: "BASIC",
+    60: "LIGHT",
+    70: "STANDART",
+    120: "HEAVY",
+    150: "HEAVY XL",
 }
 
 DEFAULT_TYPE_ORDER = [
@@ -77,6 +93,7 @@ DEFAULT_TYPE_ORDER = [
 TYPE_DISPLAY = {
     "pro": "PRO",
     "touch panel": "touch panel",
+    "mobile stands": "mobile stands",
 }
 
 REQUIRED_COLUMNS = [
@@ -128,38 +145,119 @@ def normalize_diagonal_category(value) -> Optional[str]:
 
     mapping = {
         '17"-55"': '17"-55"',
-        '17-55': '17"-55"',
+        "17-55": '17"-55"',
         '17"55"': '17"-55"',
 
         '32"-65"': '32"-65"',
-        '32-65': '32"-65"',
+        "32-65": '32"-65"',
         '32"65"': '32"-65"',
 
         '40"-75"': '40"-75"',
-        '40-75': '40"-75"',
+        "40-75": '40"-75"',
         '40"75"': '40"-75"',
         '43"-75"': '40"-75"',
-        '43-75': '40"-75"',
+        "43-75": '40"-75"',
 
         '60"-100"': '60"-100"',
-        '60-100': '60"-100"',
+        "60-100": '60"-100"',
         '60"100"': '60"-100"',
 
         '75"-120"': '75"-120"',
-        '75-120': '75"-120"',
+        "75-120": '75"-120"',
         '75"120"': '75"-120"',
     }
 
     return mapping.get(text)
 
 
-def detect_segment(row: pd.Series) -> str:
+def extract_number(value) -> Optional[float]:
+    if pd.isna(value):
+        return None
+
+    text = str(value).replace(",", ".")
+    match = re.search(r"\d+(?:\.\d+)?", text)
+
+    return float(match.group()) if match else None
+
+
+def normalize_load_category(value) -> Optional[int]:
+    number = extract_number(value)
+
+    if number is None:
+        return None
+
+    for max_load in [30, 60, 70, 120, 150]:
+        if number <= max_load:
+            return max_load
+
+    return 150
+
+
+def detect_diagonal_segment(row: pd.Series) -> str:
     diagonal_category = normalize_diagonal_category(row.get("Diagonal category"))
 
     if diagonal_category in SEGMENT_BY_DIAGONAL:
         return SEGMENT_BY_DIAGONAL[diagonal_category]
 
     return "НЕ ОПРЕДЕЛЕНО"
+
+
+def detect_load_segment(row: pd.Series) -> str:
+    load_category = normalize_load_category(row.get("Load capacity category kg"))
+
+    if load_category in SEGMENT_BY_LOAD:
+        return SEGMENT_BY_LOAD[load_category]
+
+    raw_load = normalize_load_category(row.get("максимальная нагрузка кг"))
+
+    if raw_load in SEGMENT_BY_LOAD:
+        return SEGMENT_BY_LOAD[raw_load]
+
+    return "НЕ ОПРЕДЕЛЕНО"
+
+
+def detect_load_status(row: pd.Series) -> str:
+    diagonal_segment = row.get("diagonal_segment")
+    load_segment = row.get("load_segment")
+
+    if diagonal_segment == "НЕ ОПРЕДЕЛЕНО" or load_segment == "НЕ ОПРЕДЕЛЕНО":
+        return "unknown"
+
+    diagonal_rank = SEGMENT_ORDER.get(diagonal_segment)
+    load_rank = SEGMENT_ORDER.get(load_segment)
+
+    if diagonal_rank is None or load_rank is None:
+        return "unknown"
+
+    diff = diagonal_rank - load_rank
+
+    if diff <= 0:
+        return "ok"
+
+    if diff == 1:
+        return "low"
+
+    return "strong_low"
+
+
+def build_final_segment(row: pd.Series) -> str:
+    diagonal_segment = row.get("diagonal_segment")
+    load_segment = row.get("load_segment")
+    status = row.get("load_status")
+
+    if diagonal_segment == "НЕ ОПРЕДЕЛЕНО":
+        return "НЕ ОПРЕДЕЛЕНО"
+
+    if status == "ok":
+        return diagonal_segment
+
+    if status == "low":
+        return f"{diagonal_segment} LOW LOAD"
+
+    if status == "strong_low":
+        return f"{diagonal_segment} CRITICAL LOW LOAD"
+
+    return f"{diagonal_segment} / нагрузка не определена"
 
 
 @st.cache_data(show_spinner=False)
@@ -177,7 +275,14 @@ def prepare_df(file_path: str, file_mtime: float) -> pd.DataFrame:
 
     df["Type"] = df["Type"].apply(normalize_type)
     df["sku"] = df["sku"].fillna("").astype(str).str.strip()
-    df["segment"] = df.apply(detect_segment, axis=1)
+
+    df["diagonal_segment"] = df.apply(detect_diagonal_segment, axis=1)
+    df["load_segment"] = df.apply(detect_load_segment, axis=1)
+    df["load_status"] = df.apply(detect_load_status, axis=1)
+    df["final_segment"] = df.apply(build_final_segment, axis=1)
+
+    # Для матрицы колонки остаются по диагонали
+    df["segment"] = df["diagonal_segment"]
 
     return df
 
@@ -266,12 +371,24 @@ def product_tile_html(row: pd.Series) -> str:
 
     diagonal = html.escape(safe_text(row.get("максимальная диагональ")))
     load = html.escape(safe_text(row.get("максимальная нагрузка кг")))
+    load_category = html.escape(safe_text(row.get("Load capacity category kg")))
     vesa = html.escape(safe_text(row.get("максимальная VESA")))
 
+    diagonal_segment = html.escape(safe_text(row.get("diagonal_segment")))
+    load_segment = html.escape(safe_text(row.get("load_segment")))
+    final_segment = html.escape(safe_text(row.get("final_segment")))
+
+    load_status = safe_text(row.get("load_status"))
+    risk_class = f"risk-{load_status}"
+
     tooltip = html.escape(
-        f"максимальная диагональ: {diagonal}\n"
-        f"максимальная нагрузка кг: {load}\n"
-        f"максимальная VESA: {vesa}",
+        f"Диагональный сегмент: {diagonal_segment}\n"
+        f"Нагрузочный сегмент: {load_segment}\n"
+        f"Итог: {final_segment}\n"
+        f"Максимальная диагональ: {diagonal}\n"
+        f"Максимальная нагрузка кг: {load}\n"
+        f"Категория нагрузки: {load_category}\n"
+        f"Максимальная VESA: {vesa}",
         quote=True,
     )
 
@@ -280,19 +397,19 @@ def product_tile_html(row: pd.Series) -> str:
     data_uri = image_to_data_uri(img_url) if img_url else ""
 
     if data_uri:
-        image_html = f'<img class="product-img" src="{data_uri}" loading="lazy" />'
+        image_html = f'<img class="product-img {risk_class}" src="{data_uri}" loading="lazy" />'
     else:
-        image_html = '<div class="product-img product-img-empty">нет фото</div>'
+        image_html = f'<div class="product-img product-img-empty {risk_class}">нет фото</div>'
 
     if product_link.startswith("http"):
         sku_html = (
-            f'<a class="sku-label" '
+            f'<a class="sku-label {risk_class}" '
             f'href="{html.escape(product_link, quote=True)}" '
             f'target="_blank" '
             f'title="{tooltip}">{sku}</a>'
         )
     else:
-        sku_html = f'<span class="sku-label" title="{tooltip}">{sku}</span>'
+        sku_html = f'<span class="sku-label {risk_class}" title="{tooltip}">{sku}</span>'
 
     return f'<div class="product-tile">{image_html}<div>{sku_html}</div></div>'
 
@@ -359,7 +476,6 @@ def render_matrix(df: pd.DataFrame) -> None:
 
     for type_name in type_values:
         display_type = TYPE_DISPLAY.get(type_name, type_name)
-
         html_parts.append(f"<tr><td class='type-cell'>{html.escape(display_type)}</td>")
 
         for s in SEGMENTS:
@@ -400,6 +516,33 @@ st.markdown(
     <style>
     .title-block h1 {font-size: 34px; line-height: 0.95; margin-bottom: 0; color: #10243a;}
     .title-block h3 {font-size: 18px; margin-top: 8px; color: #10243a;}
+
+    .legend {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+        margin: 10px 0 16px 0;
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .legend-box {
+        width: 16px;
+        height: 16px;
+        border-radius: 4px;
+        display: inline-block;
+    }
+
+    .legend-ok {background: #e7f8ee; border: 2px solid #2ca25f;}
+    .legend-low {background: #fff3cd; border: 2px solid #f0ad00;}
+    .legend-strong-low {background: #fde2e2; border: 2px solid #d93025;}
+    .legend-unknown {background: #eeeeee; border: 2px solid #999;}
 
     .matrix-wrap {overflow-x: auto; padding-bottom: 12px;}
 
@@ -515,10 +658,15 @@ st.markdown(
         border-radius: 5px;
         font-size: 9px;
         color: #777;
+        box-sizing: border-box;
     }
 
     img.product-img {
         display: block;
+    }
+
+    .product-img-empty {
+        font-size: 9px;
     }
 
     .sku-label,
@@ -536,6 +684,41 @@ st.markdown(
         cursor: pointer;
     }
 
+    .risk-ok {
+        border: 2px solid #2ca25f !important;
+        border-radius: 6px;
+    }
+
+    .risk-low {
+        border: 3px solid #f0ad00 !important;
+        border-radius: 6px;
+    }
+
+    .risk-strong_low {
+        border: 3px solid #d93025 !important;
+        border-radius: 6px;
+    }
+
+    .risk-unknown {
+        border: 2px solid #999 !important;
+        border-radius: 6px;
+    }
+
+    .sku-label.risk-ok,
+    .sku-label.risk-low,
+    .sku-label.risk-strong_low,
+    .sku-label.risk-unknown {
+        border: none !important;
+    }
+
+    .sku-label.risk-low {
+        color: #7a5200 !important;
+    }
+
+    .sku-label.risk-strong_low {
+        color: #b00020 !important;
+    }
+
     .margin-title,
     .margin-cell {
         background: #34c8c6;
@@ -549,6 +732,13 @@ st.markdown(
     <div class="title-block">
       <h1>СЕГМЕНТАЦИЯ<br>ТВ-СТОЕК</h1>
       <h3>ПО НАГРУЗКЕ, VESA, ДИАГОНАЛИ</h3>
+    </div>
+
+    <div class="legend">
+        <div class="legend-item"><span class="legend-box legend-ok"></span> нагрузка соответствует диагонали</div>
+        <div class="legend-item"><span class="legend-box legend-low"></span> нагрузка ниже диагонального сегмента</div>
+        <div class="legend-item"><span class="legend-box legend-strong-low"></span> сильный перекос по нагрузке</div>
+        <div class="legend-item"><span class="legend-box legend-unknown"></span> нагрузка не определена</div>
     </div>
     """,
     unsafe_allow_html=True,
@@ -575,16 +765,24 @@ with st.spinner("Загружаю файл и картинки..."):
     df = prepare_df(str(DATA_FILE), DATA_FILE.stat().st_mtime)
 
 summary = (
-    df.pivot_table(index="Type", columns="segment", values="sku", aggfunc="count", fill_value=0)
+    df.pivot_table(
+        index="Type",
+        columns="segment",
+        values="sku",
+        aggfunc="count",
+        fill_value=0,
+    )
     .reindex(columns=[s["name"] for s in SEGMENTS], fill_value=0)
     .reset_index()
 )
 
-col1, col2, col3 = st.columns(3)
+col1, col2, col3, col4, col5 = st.columns(5)
 
 col1.metric("Всего SKU", len(df))
 col2.metric("Типов", df["Type"].nunique())
 col3.metric("Не определено", int((df["segment"] == "НЕ ОПРЕДЕЛЕНО").sum()))
+col4.metric("Low load", int((df["load_status"] == "low").sum()))
+col5.metric("Critical low load", int((df["load_status"] == "strong_low").sum()))
 
 render_matrix(df)
 
