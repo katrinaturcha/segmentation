@@ -66,7 +66,7 @@ SEGMENT_BY_DIAGONAL = {
 
 DEFAULT_TYPE_ORDER = [
     "tv stands",
-    "mobile tv stands",
+    "mobile stands",
     "motorised",
     "design | interior",
     "universal aluminum",
@@ -108,8 +108,11 @@ def normalize_type(value) -> str:
     if text in ["pro", "prof", "professional"]:
         return "pro"
 
-    if text in ["touchpanel", "touch-panel"]:
+    if text in ["touchpanel", "touch-panel", "touch panel"]:
         return "touch panel"
+
+    if text in ["mobile tv stands", "mobile stand", "mobile stands"]:
+        return "mobile stands"
 
     return text
 
