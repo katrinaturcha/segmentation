@@ -66,12 +66,12 @@ SEGMENT_BY_DIAGONAL = {
 
 DEFAULT_TYPE_ORDER = [
     "tv stands",
-    "design | interior",
     "mobile tv stands",
-    "universal aluminum",
     "motorised",
-    "pro",
+    "design | interior",
+    "universal aluminum",
     "touch panel",
+    "pro",
 ]
 
 TYPE_DISPLAY = {

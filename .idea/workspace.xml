@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d6c24a3f-3438-4523-bed9-0f1dad16c985" name="Changes" comment="norm_again">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="d6c24a3f-3438-4523-bed9-0f1dad16c985" name="Changes" comment="PRO" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -186,7 +184,15 @@
       <option name="project" value="LOCAL" />
       <updated>1781703097251</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="PRO">
+      <option name="closed" value="true" />
+      <created>1782219217748</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1782219217748</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -219,10 +225,10 @@
     <MESSAGE value="margincell" />
     <MESSAGE value="detect_segment_DIAG" />
     <MESSAGE value="seg" />
-    <MESSAGE value="PRO" />
     <MESSAGE value="normalize" />
     <MESSAGE value="return" />
     <MESSAGE value="norm_again" />
-    <option name="LAST_COMMIT_MESSAGE" value="norm_again" />
+    <MESSAGE value="PRO" />
+    <option name="LAST_COMMIT_MESSAGE" value="PRO" />
   </component>
 </project>
