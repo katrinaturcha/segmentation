@@ -147,21 +147,17 @@ def normalize_diagonal_category(value) -> Optional[str]:
         '17"-55"': '17"-55"',
         "17-55": '17"-55"',
         '17"55"': '17"-55"',
-
         '32"-65"': '32"-65"',
         "32-65": '32"-65"',
         '32"65"': '32"-65"',
-
         '40"-75"': '40"-75"',
         "40-75": '40"-75"',
         '40"75"': '40"-75"',
         '43"-75"': '40"-75"',
         "43-75": '40"-75"',
-
         '60"-100"': '60"-100"',
         "60-100": '60"-100"',
         '60"100"': '60"-100"',
-
         '75"-120"': '75"-120"',
         "75-120": '75"-120"',
         '75"120"': '75"-120"',
@@ -203,15 +199,15 @@ def detect_diagonal_segment(row: pd.Series) -> str:
 
 
 def detect_load_segment(row: pd.Series) -> str:
-    load_category = normalize_load_category(row.get("Load capacity category kg"))
-
-    if load_category in SEGMENT_BY_LOAD:
-        return SEGMENT_BY_LOAD[load_category]
-
     raw_load = normalize_load_category(row.get("максимальная нагрузка кг"))
 
     if raw_load in SEGMENT_BY_LOAD:
         return SEGMENT_BY_LOAD[raw_load]
+
+    load_category = normalize_load_category(row.get("Load capacity category kg"))
+
+    if load_category in SEGMENT_BY_LOAD:
+        return SEGMENT_BY_LOAD[load_category]
 
     return "НЕ ОПРЕДЕЛЕНО"
 
@@ -229,12 +225,10 @@ def detect_load_status(row: pd.Series) -> str:
     if diagonal_rank is None or load_rank is None:
         return "unknown"
 
-    diff = load_rank - diagonal_rank
-
-    if diff < 0:
+    if load_rank < diagonal_rank:
         return "low"
 
-    if diff > 0:
+    if load_rank > diagonal_rank:
         return "high"
 
     return "ok"
@@ -242,7 +236,6 @@ def detect_load_status(row: pd.Series) -> str:
 
 def build_final_segment(row: pd.Series) -> str:
     diagonal_segment = row.get("diagonal_segment")
-    load_segment = row.get("load_segment")
     status = row.get("load_status")
 
     if diagonal_segment == "НЕ ОПРЕДЕЛЕНО":
@@ -280,8 +273,6 @@ def prepare_df(file_path: str, file_mtime: float) -> pd.DataFrame:
     df["load_segment"] = df.apply(detect_load_segment, axis=1)
     df["load_status"] = df.apply(detect_load_status, axis=1)
     df["final_segment"] = df.apply(build_final_segment, axis=1)
-
-    # Для матрицы колонки остаются по диагонали
     df["segment"] = df["diagonal_segment"]
 
     return df
@@ -414,35 +405,27 @@ def product_tile_html(row: pd.Series) -> str:
     return f'<div class="product-tile">{image_html}<div>{sku_html}</div></div>'
 
 
-def heat_class(count: int, max_count: int) -> str:
-    if count <= 0 or max_count <= 0:
-        return "heat-0"
+def cell_status_class(cell_df: pd.DataFrame) -> str:
+    if cell_df.empty:
+        return "cell-empty"
 
-    ratio = count / max_count
+    statuses = set(cell_df["load_status"].dropna().astype(str))
 
-    if ratio <= 0.2:
-        return "heat-1"
-    if ratio <= 0.4:
-        return "heat-2"
-    if ratio <= 0.6:
-        return "heat-3"
-    if ratio <= 0.8:
-        return "heat-4"
+    if "high" in statuses:
+        return "cell-high"
 
-    return "heat-5"
+    if "low" in statuses:
+        return "cell-low"
+
+    if "unknown" in statuses:
+        return "cell-unknown"
+
+    return "cell-ok"
 
 
 def render_matrix(df: pd.DataFrame) -> None:
     type_values = [t for t in DEFAULT_TYPE_ORDER if t in set(df["Type"])]
     type_values += sorted([t for t in df["Type"].dropna().unique() if t not in type_values])
-
-    counts = [
-        len(df[(df["Type"] == type_name) & (df["segment"] == s["name"])])
-        for type_name in type_values
-        for s in SEGMENTS
-    ]
-
-    max_count = max(counts) if counts else 0
 
     html_parts = ["<div class='matrix-wrap'><table class='matrix'>"]
 
@@ -485,7 +468,7 @@ def render_matrix(df: pd.DataFrame) -> None:
             ]
 
             count = len(cell_df)
-            cls = heat_class(count, max_count)
+            cls = cell_status_class(cell_df)
 
             products = "".join(
                 product_tile_html(row)
@@ -616,12 +599,11 @@ st.markdown(
         vertical-align: top !important;
     }
 
-    .heat-0 {background: #ffffff;}
-    .heat-1 {background: #e9fbfb;}
-    .heat-2 {background: #caf4f3;}
-    .heat-3 {background: #95e8e7;}
-    .heat-4 {background: #5ed9d8;}
-    .heat-5 {background: #22c5c3;}
+    .cell-empty {background: #ffffff !important;}
+    .cell-ok {background: #e7f8ee !important;}
+    .cell-low {background: #fff3cd !important;}
+    .cell-high {background: #fde2e2 !important;}
+    .cell-unknown {background: #eeeeee !important;}
 
     .count {
         font-size: 20px;
@@ -688,33 +670,33 @@ st.markdown(
         border: 2px solid #2ca25f !important;
         border-radius: 6px;
     }
-    
+
     .risk-low {
         border: 3px solid #f0ad00 !important;
         border-radius: 6px;
     }
-    
+
     .risk-high {
         border: 3px solid #d93025 !important;
         border-radius: 6px;
     }
-    
+
     .risk-unknown {
         border: 2px solid #999 !important;
         border-radius: 6px;
     }
-    
+
     .sku-label.risk-ok,
     .sku-label.risk-low,
     .sku-label.risk-high,
     .sku-label.risk-unknown {
         border: none !important;
     }
-    
+
     .sku-label.risk-low {
         color: #7a5200 !important;
     }
-    
+
     .sku-label.risk-high {
         color: #b00020 !important;
     }
