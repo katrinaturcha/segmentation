@@ -229,15 +229,15 @@ def detect_load_status(row: pd.Series) -> str:
     if diagonal_rank is None or load_rank is None:
         return "unknown"
 
-    diff = diagonal_rank - load_rank
+    diff = load_rank - diagonal_rank
 
-    if diff <= 0:
-        return "ok"
-
-    if diff == 1:
+    if diff < 0:
         return "low"
 
-    return "strong_low"
+    if diff > 0:
+        return "high"
+
+    return "ok"
 
 
 def build_final_segment(row: pd.Series) -> str:
@@ -254,8 +254,8 @@ def build_final_segment(row: pd.Series) -> str:
     if status == "low":
         return f"{diagonal_segment} LOW LOAD"
 
-    if status == "strong_low":
-        return f"{diagonal_segment} CRITICAL LOW LOAD"
+    if status == "high":
+        return f"{diagonal_segment} HIGH LOAD"
 
     return f"{diagonal_segment} / нагрузка не определена"
 
@@ -539,9 +539,9 @@ st.markdown(
         display: inline-block;
     }
 
-    .legend-ok {background: #e7f8ee; border: 2px solid #2ca25f;}
     .legend-low {background: #fff3cd; border: 2px solid #f0ad00;}
-    .legend-strong-low {background: #fde2e2; border: 2px solid #d93025;}
+    .legend-ok {background: #e7f8ee; border: 2px solid #2ca25f;}
+    .legend-high {background: #fde2e2; border: 2px solid #d93025;}
     .legend-unknown {background: #eeeeee; border: 2px solid #999;}
 
     .matrix-wrap {overflow-x: auto; padding-bottom: 12px;}
@@ -688,34 +688,34 @@ st.markdown(
         border: 2px solid #2ca25f !important;
         border-radius: 6px;
     }
-
+    
     .risk-low {
         border: 3px solid #f0ad00 !important;
         border-radius: 6px;
     }
-
-    .risk-strong_low {
+    
+    .risk-high {
         border: 3px solid #d93025 !important;
         border-radius: 6px;
     }
-
+    
     .risk-unknown {
         border: 2px solid #999 !important;
         border-radius: 6px;
     }
-
+    
     .sku-label.risk-ok,
     .sku-label.risk-low,
-    .sku-label.risk-strong_low,
+    .sku-label.risk-high,
     .sku-label.risk-unknown {
         border: none !important;
     }
-
+    
     .sku-label.risk-low {
         color: #7a5200 !important;
     }
-
-    .sku-label.risk-strong_low {
+    
+    .sku-label.risk-high {
         color: #b00020 !important;
     }
 
@@ -735,9 +735,9 @@ st.markdown(
     </div>
 
     <div class="legend">
+        <div class="legend-item"><span class="legend-box legend-low"></span> нагрузка ниже диагонали</div>
         <div class="legend-item"><span class="legend-box legend-ok"></span> нагрузка соответствует диагонали</div>
-        <div class="legend-item"><span class="legend-box legend-low"></span> нагрузка ниже диагонального сегмента</div>
-        <div class="legend-item"><span class="legend-box legend-strong-low"></span> сильный перекос по нагрузке</div>
+        <div class="legend-item"><span class="legend-box legend-high"></span> нагрузка выше диагонали</div>
         <div class="legend-item"><span class="legend-box legend-unknown"></span> нагрузка не определена</div>
     </div>
     """,
@@ -776,13 +776,14 @@ summary = (
     .reset_index()
 )
 
-col1, col2, col3, col4, col5 = st.columns(5)
+col1, col2, col3, col4, col5, col6 = st.columns(6)
 
 col1.metric("Всего SKU", len(df))
 col2.metric("Типов", df["Type"].nunique())
 col3.metric("Не определено", int((df["segment"] == "НЕ ОПРЕДЕЛЕНО").sum()))
-col4.metric("Low load", int((df["load_status"] == "low").sum()))
-col5.metric("Critical low load", int((df["load_status"] == "strong_low").sum()))
+col4.metric("Нагрузка ниже диагонали", int((df["load_status"] == "low").sum()))
+col5.metric("Нагрузка соответствует", int((df["load_status"] == "ok").sum()))
+col6.metric("Нагрузка выше диагонали", int((df["load_status"] == "high").sum()))
 
 render_matrix(df)
 
