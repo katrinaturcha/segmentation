@@ -70,9 +70,14 @@ DEFAULT_TYPE_ORDER = [
     "mobile tv stands",
     "universal aluminum",
     "motorised",
-    "professional | touch panel",
     "pro",
+    "touch panel",
 ]
+
+TYPE_DISPLAY = {
+    "pro": "PRO",
+    "touch panel": "touch panel",
+}
 
 REQUIRED_COLUMNS = [
     "image_url",
@@ -88,6 +93,25 @@ REQUIRED_COLUMNS = [
     "максимальная суммарная нагрузка (с полками) кг",
     "описание",
 ]
+
+
+def normalize_type(value) -> str:
+    if pd.isna(value):
+        return "без типа"
+
+    text = str(value).strip().lower()
+    text = re.sub(r"\s+", " ", text)
+
+    if text in ["professional | touch panel", "professional touch panel"]:
+        return "touch panel"
+
+    if text in ["pro", "prof", "professional"]:
+        return "pro"
+
+    if text in ["touchpanel", "touch-panel"]:
+        return "touch panel"
+
+    return text
 
 
 def normalize_diagonal_category(value) -> Optional[str]:
@@ -148,7 +172,7 @@ def prepare_df(file_path: str, file_mtime: float) -> pd.DataFrame:
         if col not in df.columns:
             df[col] = None
 
-    df["Type"] = df["Type"].fillna("без типа").astype(str).str.strip().str.lower()
+    df["Type"] = df["Type"].apply(normalize_type)
     df["sku"] = df["sku"].fillna("").astype(str).str.strip()
     df["segment"] = df.apply(detect_segment, axis=1)
 
@@ -215,7 +239,7 @@ def image_to_data_uri(url: str) -> str:
             timeout=12,
             verify=False,
             headers={
-                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120 Safari/537.36",
+                "User-Agent": "Mozilla/5.0",
                 "Accept": "image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
             },
         )
@@ -309,7 +333,7 @@ def render_matrix(df: pd.DataFrame) -> None:
 
     html_parts.append("</tr>")
 
-    html_parts.append("<tr><td class='left-title'>МАКС. НАГРУЗКА</td>")
+    html_parts.append("<tr><td class='left-title'>МАКС.<br>НАГРУЗКА</td>")
 
     for s in SEGMENTS:
         html_parts.append(f"<td class='top-cell'><b>{s['load_label']}</b></td>")
@@ -323,7 +347,7 @@ def render_matrix(df: pd.DataFrame) -> None:
 
     html_parts.append("</tr>")
 
-    html_parts.append("<tr><td class='left-title'>РАЗМЕР ЭКРАНОВ</td>")
+    html_parts.append("<tr><td class='left-title'>РАЗМЕР<br>ЭКРАНОВ</td>")
 
     for s in SEGMENTS:
         html_parts.append(f"<td class='top-cell'><b>{html.escape(s['diagonal'])}</b></td>")
@@ -331,7 +355,9 @@ def render_matrix(df: pd.DataFrame) -> None:
     html_parts.append("</tr>")
 
     for type_name in type_values:
-        html_parts.append(f"<tr><td class='type-cell'>{html.escape(type_name)}</td>")
+        display_type = TYPE_DISPLAY.get(type_name, type_name)
+
+        html_parts.append(f"<tr><td class='type-cell'>{html.escape(display_type)}</td>")
 
         for s in SEGMENTS:
             cell_df = df[
