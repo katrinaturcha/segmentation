@@ -385,10 +385,12 @@ def product_tile_html(row: pd.Series) -> str:
 
     img_url = clean_url(row.get("image")) or clean_url(row.get("image_url"))
     product_link = clean_url(row.get("image_url")) or img_url
-    data_uri = image_to_data_uri(img_url) if img_url else ""
-
-    if data_uri:
-        image_html = f'<img class="product-img {risk_class}" src="{data_uri}" loading="lazy" />'
+    if img_url.startswith("http"):
+        image_html = (
+            f'<img class="product-img {risk_class}" '
+            f'src="{html.escape(img_url, quote=True)}" '
+            f'loading="lazy" referrerpolicy="no-referrer" />'
+        )
     else:
         image_html = f'<div class="product-img product-img-empty {risk_class}">нет фото</div>'
 
