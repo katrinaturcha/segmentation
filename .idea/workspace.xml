@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d6c24a3f-3438-4523-bed9-0f1dad16c985" name="Changes" comment="load35">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="d6c24a3f-3438-4523-bed9-0f1dad16c985" name="Changes" comment="gg2" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -43,6 +41,7 @@
       <recent name="C:\Users\e.turchaninova\PycharmProjects\segmentation" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\e.turchaninova\PycharmProjects\segmentation\images" />
       <recent name="C:\Users\e.turchaninova\PycharmProjects\segmentation" />
     </key>
   </component>
@@ -286,7 +285,23 @@
       <option name="project" value="LOCAL" />
       <updated>1787216247001</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="gg">
+      <option name="closed" value="true" />
+      <created>1787229784876</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1787229784876</updated>
+    </task>
+    <task id="LOCAL-00030" summary="gg2">
+      <option name="closed" value="true" />
+      <created>1787229831686</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1787229831686</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -307,8 +322,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="tooltip" />
-    <MESSAGE value="raw_data" />
     <MESSAGE value="prepare_df" />
     <MESSAGE value="max_load" />
     <MESSAGE value="segments" />
@@ -332,6 +345,8 @@
     <MESSAGE value="images" />
     <MESSAGE value="images2" />
     <MESSAGE value="load35" />
-    <option name="LAST_COMMIT_MESSAGE" value="load35" />
+    <MESSAGE value="gg" />
+    <MESSAGE value="gg2" />
+    <option name="LAST_COMMIT_MESSAGE" value="gg2" />
   </component>
 </project>
