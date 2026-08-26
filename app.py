@@ -527,23 +527,23 @@ st.markdown(
         min-width: 230px;
         min-height: 82px;
         padding: 14px 28px;
-        border: 3px solid #ed1c24;
+        border: 3px solid #34c8c6;
         border-radius: 10px;
         background: #fff;
-        color: #ed1c24;
+        color: #34c8c6;
         font-size: 27px;
         font-weight: 800;
         letter-spacing: 0.02em;
     }
 
     [data-testid="stMain"] div.stButton > button:hover {
-        border-color: #b90f17;
-        background: #fff2f2;
-        color: #b90f17;
+        border-color: #159b99;
+        background: #e9fbfa;
+        color: #159b99;
     }
 
     [data-testid="stMain"] div.stButton > button[kind="primary"] {
-        background: #ed1c24;
+        background: #34c8c6;
         color: #fff;
     }
 
