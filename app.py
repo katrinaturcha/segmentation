@@ -14,6 +14,18 @@ st.set_page_config(page_title="Сегментация ТВ-стоек", layout="
 APP_DIR = Path(__file__).resolve().parent
 DATA_FILE = APP_DIR / "sample_test_onkron.xlsx"
 
+SEGMENTS = [
+    {"name": "BASIC", "load_label": "35 kg", "diagonal": '17"-60"', "margin": "12%", "vesa": "75x75, 100x100, 200x100, 200x200, 300x200, 300x300, 400x200, 400x300, 400x400"},
+    {"name": "LIGHT", "load_label": "60 kg", "diagonal": '32"-65"', "margin": "20%", "vesa": "200x100, 200x200, 300x200, 300x300, 400x200, 400x300, 400x400, 400x500, 600x300, 600x400"},
+    {"name": "STANDART", "load_label": "70 kg", "diagonal": '40"-75"', "margin": "25%", "vesa": "300x300, 400x200, 400x300, 400x400, 500x400, 500x500, 600x300, 600x400"},
+    {"name": "HEAVY", "load_label": "120 kg", "diagonal": '60"-100"', "margin": "30%", "vesa": "400x400, 500x400, 500x500, 600x300, 600x400, 600x500, 700x700, 800x400, 800x600"},
+    {"name": "HEAVY XL", "load_label": "150 kg", "diagonal": '75"-120"', "margin": "40%", "vesa": "400x400, 600x500, 600x600, 700x400, 700x500, 700x700, 800x600, 900x600, 1000x600, 1000x800, 1500x600"},
+]
+SEGMENT_ORDER = {segment["name"]: index for index, segment in enumerate(SEGMENTS, start=1)}
+SEGMENT_BY_DIAGONAL = {segment["diagonal"]: segment["name"] for segment in SEGMENTS}
+SEGMENT_BY_DIAGONAL['17"-60"'] = "BASIC"
+SEGMENT_BY_LOAD = {35: "BASIC", 60: "LIGHT", 70: "STANDART", 120: "HEAVY", 150: "HEAVY XL"}
+
 REQUIRED_COLUMNS = [
     "image_url",
     "sku",
@@ -95,13 +107,19 @@ def extract_number(value) -> Optional[float]:
 
 
 def detect_diagonal_segment(row: pd.Series) -> str:
-    return normalize_diagonal_category(row.get("Diagonal category")) or "НЕ ОПРЕДЕЛЕНО"
+    diagonal = normalize_diagonal_category(row.get("Diagonal category"))
+    return SEGMENT_BY_DIAGONAL.get(diagonal, "НЕ ОПРЕДЕЛЕНО")
 
 
 def detect_load_segment(row: pd.Series) -> str:
     value = extract_number(row.get("Load capacity category kg"))
     value = value if value is not None else extract_number(row.get("максимальная нагрузка кг"))
-    return str(value) if value is not None else "НЕ ОПРЕДЕЛЕНО"
+    if value is None:
+        return "НЕ ОПРЕДЕЛЕНО"
+    for limit, segment in SEGMENT_BY_LOAD.items():
+        if value <= limit:
+            return segment
+    return "HEAVY XL"
 
 
 def detect_load_status(row: pd.Series) -> str:
@@ -111,8 +129,8 @@ def detect_load_status(row: pd.Series) -> str:
     if diagonal_segment == "НЕ ОПРЕДЕЛЕНО" or load_segment == "НЕ ОПРЕДЕЛЕНО":
         return "unknown"
 
-    diagonal_rank = row.get("diagonal_rank")
-    load_rank = row.get("load_rank")
+    diagonal_rank = SEGMENT_ORDER.get(diagonal_segment)
+    load_rank = SEGMENT_ORDER.get(load_segment)
 
     if diagonal_rank is None or load_rank is None:
         return "unknown"
@@ -167,23 +185,9 @@ def prepare_df(file_path: str, file_mtime: float) -> pd.DataFrame:
 
     df["diagonal_segment"] = df.apply(detect_diagonal_segment, axis=1)
     df["load_segment"] = df.apply(detect_load_segment, axis=1)
-    diagonal_values = [value for value in df["diagonal_segment"].unique() if value != "НЕ ОПРЕДЕЛЕНО"]
-    diagonal_ranks = {
-        value: rank for rank, value in enumerate(
-            sorted(diagonal_values, key=lambda item: extract_number(item) or float("inf")), start=1
-        )
-    }
-    load_values = [value for value in df["load_segment"].unique() if value != "НЕ ОПРЕДЕЛЕНО"]
-    load_ranks = {
-        value: rank for rank, value in enumerate(
-            sorted(load_values, key=float), start=1
-        )
-    }
-    df["diagonal_rank"] = df["diagonal_segment"].map(diagonal_ranks)
-    df["load_rank"] = df["load_segment"].map(load_ranks)
     df["load_status"] = df.apply(detect_load_status, axis=1)
     df["final_segment"] = df.apply(build_final_segment, axis=1)
-    df["segment"] = df.apply(display_category, axis=1)
+    df["segment"] = df["diagonal_segment"]
 
     return df
 
@@ -346,35 +350,7 @@ def cell_status_class(cell_df: pd.DataFrame) -> str:
 
 
 def active_segments(df: pd.DataFrame) -> list[dict]:
-    """Build the displayed category columns from the current Excel data."""
-    categories = []
-    for name in df["segment"].dropna().unique():
-        category_df = df[df["segment"] == name]
-        diagonal_values = category_df["Diagonal category"].dropna().astype(str)
-        maximum_diagonal = max(
-            (float(value) for text in diagonal_values for value in re.findall(r"\d+(?:[.,]\d+)?", text.replace(",", "."))),
-            default=float("inf"),
-        )
-        categories.append((maximum_diagonal, str(name), category_df))
-
-    load_values = sorted(
-        df["Load capacity category kg"].dropna().astype(str).unique(),
-        key=lambda value: extract_number(value) if extract_number(value) is not None else float("inf"),
-    )
-    result = []
-    for index, (_, name, category_df) in enumerate(sorted(categories)):
-        vesa_values = category_df["VESA category"].dropna().astype(str).unique()
-        result.append(
-            {
-                "name": name,
-                "load_label": load_values[index] if index < len(load_values) else "—",
-                "diagonal": name,
-                "margin": "—",
-                "vesa": ", ".join(vesa_values) or "—",
-            }
-        )
-
-    return result
+    return SEGMENTS
 
 
 def render_matrix(df: pd.DataFrame, segments: list[dict]) -> None:

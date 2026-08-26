@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d6c24a3f-3438-4523-bed9-0f1dad16c985" name="Changes" comment="categ auto">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-    </list>
+    <list default="true" id="d6c24a3f-3438-4523-bed9-0f1dad16c985" name="Changes" comment="ts" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -400,7 +397,23 @@
       <option name="project" value="LOCAL" />
       <updated>1787732759867</updated>
     </task>
-    <option name="localTasksCounter" value="43" />
+    <task id="LOCAL-00043" summary="categ fix">
+      <option name="closed" value="true" />
+      <created>1787733167180</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1787733167180</updated>
+    </task>
+    <task id="LOCAL-00044" summary="ts">
+      <option name="closed" value="true" />
+      <created>1787733228760</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1787733228760</updated>
+    </task>
+    <option name="localTasksCounter" value="45" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -421,8 +434,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="norm_again" />
-    <MESSAGE value="DEFAULT_TYPE_ORDER" />
     <MESSAGE value="order" />
     <MESSAGE value="segment_new" />
     <MESSAGE value="5550" />
@@ -446,6 +457,8 @@
     <MESSAGE value="new" />
     <MESSAGE value="TS1552W" />
     <MESSAGE value="categ auto" />
-    <option name="LAST_COMMIT_MESSAGE" value="categ auto" />
+    <MESSAGE value="categ fix" />
+    <MESSAGE value="ts" />
+    <option name="LAST_COMMIT_MESSAGE" value="ts" />
   </component>
 </project>
