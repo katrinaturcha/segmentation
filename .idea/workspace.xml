@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d6c24a3f-3438-4523-bed9-0f1dad16c985" name="Changes" comment="color">
-      <change afterPath="$PROJECT_DIR$/images/TS1580-B.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/TS2811DS-B.png" afterDir="false" />
+    <list default="true" id="d6c24a3f-3438-4523-bed9-0f1dad16c985" name="Changes" comment="TS1552W">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sample_test_onkron.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/sample_test_onkron.xlsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -369,7 +369,23 @@
       <option name="project" value="LOCAL" />
       <updated>1787729131869</updated>
     </task>
-    <option name="localTasksCounter" value="39" />
+    <task id="LOCAL-00039" summary="new">
+      <option name="closed" value="true" />
+      <created>1787731674499</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1787731674499</updated>
+    </task>
+    <task id="LOCAL-00040" summary="TS1552W">
+      <option name="closed" value="true" />
+      <created>1787731878200</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1787731878200</updated>
+    </task>
+    <option name="localTasksCounter" value="41" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -390,8 +406,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="seg" />
-    <MESSAGE value="normalize" />
     <MESSAGE value="return" />
     <MESSAGE value="norm_again" />
     <MESSAGE value="DEFAULT_TYPE_ORDER" />
@@ -415,6 +429,8 @@
     <MESSAGE value="excel" />
     <MESSAGE value="button" />
     <MESSAGE value="color" />
-    <option name="LAST_COMMIT_MESSAGE" value="color" />
+    <MESSAGE value="new" />
+    <MESSAGE value="TS1552W" />
+    <option name="LAST_COMMIT_MESSAGE" value="TS1552W" />
   </component>
 </project>

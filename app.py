@@ -14,68 +14,6 @@ st.set_page_config(page_title="Сегментация ТВ-стоек", layout="
 APP_DIR = Path(__file__).resolve().parent
 DATA_FILE = APP_DIR / "sample_test_onkron.xlsx"
 
-SEGMENTS = [
-    {
-        "name": "BASIC",
-        "load_label": "35 kg",
-        "diagonal": '17"-55"',
-        "margin": "12%",
-        "vesa": "75x75, 100x100, 200x100, 200x200, 300x200, 300x300, 400x200, 400x300, 400x400",
-    },
-    {
-        "name": "LIGHT",
-        "load_label": "60 kg",
-        "diagonal": '32"-65"',
-        "margin": "20%",
-        "vesa": "200x100, 200x200, 300x200, 300x300, 400x200, 400x300, 400x400, 400x500, 600x300, 600x400",
-    },
-    {
-        "name": "STANDART",
-        "load_label": "70 kg",
-        "diagonal": '40"-75"',
-        "margin": "25%",
-        "vesa": "300x300, 400x200, 400x300, 400x400, 500x400, 500x500, 600x300, 600x400, Prof 600x500, 600x600, 700x400, 700x500, 700x700, 800x400",
-    },
-    {
-        "name": "HEAVY",
-        "load_label": "120 kg",
-        "diagonal": '60"-100"',
-        "margin": "30%",
-        "vesa": "400x400, 500x400, 500x500, 600x300, 600x400, 600x500, 700x700, 800x400, 800x600, Prof 900x600, 1000x600, 1000x800, 1100x600",
-    },
-    {
-        "name": "HEAVY XL",
-        "load_label": "150 kg",
-        "diagonal": '75"-120"',
-        "margin": "40%",
-        "vesa": "400x400, 600x500, 600x600, 700x400, 700x500, 700x700, 800x600, 900x600, Prof 900x600, 1000x600, 1000x800, 1500x600",
-    },
-]
-
-SEGMENT_ORDER = {
-    "BASIC": 1,
-    "LIGHT": 2,
-    "STANDART": 3,
-    "HEAVY": 4,
-    "HEAVY XL": 5,
-}
-
-SEGMENT_BY_DIAGONAL = {
-    '17"-55"': "BASIC",
-    '32"-65"': "LIGHT",
-    '40"-75"': "STANDART",
-    '60"-100"': "HEAVY",
-    '75"-120"': "HEAVY XL",
-}
-
-SEGMENT_BY_LOAD = {
-    35: "BASIC",
-    60: "LIGHT",
-    70: "STANDART",
-    120: "HEAVY",
-    150: "HEAVY XL",
-}
-
 REQUIRED_COLUMNS = [
     "image_url",
     "sku",
@@ -92,6 +30,7 @@ REQUIRED_COLUMNS = [
 ]
 
 SERIES_COLUMN = "serie"
+CATEGORY_COLUMN = "category"
 
 
 def normalize_type(value) -> str:
@@ -123,6 +62,16 @@ def normalize_series(value) -> str:
     return str(value).strip()
 
 
+def display_category(row: pd.Series) -> str:
+    """Use an explicit category from Excel, or fall back to its diagonal category."""
+    explicit = safe_text(row.get(CATEGORY_COLUMN))
+    if explicit:
+        return explicit
+
+    diagonal = safe_text(row.get("Diagonal category"))
+    return diagonal or row.get("diagonal_segment", "НЕ ОПРЕДЕЛЕНО")
+
+
 def normalize_diagonal_category(value) -> Optional[str]:
     if pd.isna(value):
         return None
@@ -132,27 +81,7 @@ def normalize_diagonal_category(value) -> Optional[str]:
     text = text.replace("–", "-").replace("—", "-")
     text = re.sub(r"\s+", "", text)
 
-    mapping = {
-        '17"-55"': '17"-55"',
-        "17-55": '17"-55"',
-        '17"55"': '17"-55"',
-        '32"-65"': '32"-65"',
-        "32-65": '32"-65"',
-        '32"65"': '32"-65"',
-        '40"-75"': '40"-75"',
-        "40-75": '40"-75"',
-        '40"75"': '40"-75"',
-        '43"-75"': '40"-75"',
-        "43-75": '40"-75"',
-        '60"-100"': '60"-100"',
-        "60-100": '60"-100"',
-        '60"100"': '60"-100"',
-        '75"-120"': '75"-120"',
-        "75-120": '75"-120"',
-        '75"120"': '75"-120"',
-    }
-
-    return mapping.get(text)
+    return text or None
 
 
 def extract_number(value) -> Optional[float]:
@@ -165,40 +94,14 @@ def extract_number(value) -> Optional[float]:
     return float(match.group()) if match else None
 
 
-def normalize_load_category(value) -> Optional[int]:
-    number = extract_number(value)
-
-    if number is None:
-        return None
-
-    for max_load in [35, 60, 70, 120, 150]:
-        if number <= max_load:
-            return max_load
-
-    return 150
-
-
 def detect_diagonal_segment(row: pd.Series) -> str:
-    diagonal_category = normalize_diagonal_category(row.get("Diagonal category"))
-
-    if diagonal_category in SEGMENT_BY_DIAGONAL:
-        return SEGMENT_BY_DIAGONAL[diagonal_category]
-
-    return "НЕ ОПРЕДЕЛЕНО"
+    return normalize_diagonal_category(row.get("Diagonal category")) or "НЕ ОПРЕДЕЛЕНО"
 
 
 def detect_load_segment(row: pd.Series) -> str:
-    raw_load = normalize_load_category(row.get("максимальная нагрузка кг"))
-
-    if raw_load in SEGMENT_BY_LOAD:
-        return SEGMENT_BY_LOAD[raw_load]
-
-    load_category = normalize_load_category(row.get("Load capacity category kg"))
-
-    if load_category in SEGMENT_BY_LOAD:
-        return SEGMENT_BY_LOAD[load_category]
-
-    return "НЕ ОПРЕДЕЛЕНО"
+    value = extract_number(row.get("Load capacity category kg"))
+    value = value if value is not None else extract_number(row.get("максимальная нагрузка кг"))
+    return str(value) if value is not None else "НЕ ОПРЕДЕЛЕНО"
 
 
 def detect_load_status(row: pd.Series) -> str:
@@ -208,8 +111,8 @@ def detect_load_status(row: pd.Series) -> str:
     if diagonal_segment == "НЕ ОПРЕДЕЛЕНО" or load_segment == "НЕ ОПРЕДЕЛЕНО":
         return "unknown"
 
-    diagonal_rank = SEGMENT_ORDER.get(diagonal_segment)
-    load_rank = SEGMENT_ORDER.get(load_segment)
+    diagonal_rank = row.get("diagonal_rank")
+    load_rank = row.get("load_rank")
 
     if diagonal_rank is None or load_rank is None:
         return "unknown"
@@ -266,7 +169,7 @@ def prepare_df(file_path: str, file_mtime: float) -> pd.DataFrame:
     df["load_segment"] = df.apply(detect_load_segment, axis=1)
     df["load_status"] = df.apply(detect_load_status, axis=1)
     df["final_segment"] = df.apply(build_final_segment, axis=1)
-    df["segment"] = df["diagonal_segment"]
+    df["segment"] = df.apply(display_category, axis=1)
 
     return df
 
@@ -429,19 +332,19 @@ def cell_status_class(cell_df: pd.DataFrame) -> str:
 
 
 def active_segments(df: pd.DataFrame) -> list[dict]:
-    """Return only the segment columns represented in the current data."""
-    names = [str(name) for name in df["segment"].dropna().unique()]
-    configured = {segment["name"]: segment for segment in SEGMENTS}
-    result = [segment for segment in SEGMENTS if segment["name"] in names]
-
-    for name in sorted(name for name in names if name not in configured):
+    """Build the displayed category columns from the current Excel data."""
+    result = []
+    for name in df["segment"].dropna().unique():
+        category_df = df[df["segment"] == name]
+        load_values = category_df["Load capacity category kg"].dropna().astype(str).unique()
+        vesa_values = category_df["VESA category"].dropna().astype(str).unique()
         result.append(
             {
-                "name": name,
-                "load_label": "—",
-                "diagonal": "—",
+                "name": str(name),
+                "load_label": ", ".join(load_values) or "—",
+                "diagonal": str(name),
                 "margin": "—",
-                "vesa": "—",
+                "vesa": ", ".join(vesa_values) or "—",
             }
         )
 
@@ -542,9 +445,11 @@ st.markdown(
         color: #159b99;
     }
 
+    [data-testid="stMain"] div.stButton > button[data-testid="stBaseButton-primary"],
     [data-testid="stMain"] div.stButton > button[kind="primary"] {
-        background: #34c8c6;
-        color: #fff;
+        background: #34c8c6 !important;
+        border-color: #34c8c6 !important;
+        color: #fff !important;
     }
 
     .legend {
@@ -807,17 +712,23 @@ summary = (
 )
 
 series_values = list(df[SERIES_COLUMN].dropna().unique())
+default_series = "ONKRON" if "ONKRON" in series_values else series_values[0]
 if "selected_series" not in st.session_state or st.session_state.selected_series not in series_values:
-    st.session_state.selected_series = series_values[0]
+    st.session_state.selected_series = default_series
+
+
+def select_series(series_name: str) -> None:
+    st.session_state.selected_series = series_name
 
 with st.container(horizontal=True, horizontal_alignment="left"):
     for series_name in series_values:
-        if st.button(
+        st.button(
             series_name,
             key=f"series_button_{series_name}",
             type="primary" if series_name == st.session_state.selected_series else "secondary",
-        ):
-            st.session_state.selected_series = series_name
+            on_click=select_series,
+            args=(series_name,),
+        )
 
 series_df = df[df[SERIES_COLUMN] == st.session_state.selected_series]
 series_segments = active_segments(series_df)
