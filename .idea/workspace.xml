@@ -429,7 +429,23 @@
       <option name="project" value="LOCAL" />
       <updated>1787734385973</updated>
     </task>
-    <option name="localTasksCounter" value="47" />
+    <task id="LOCAL-00047" summary="order">
+      <option name="closed" value="true" />
+      <created>1787734809101</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1787734809101</updated>
+    </task>
+    <task id="LOCAL-00048" summary="newts">
+      <option name="closed" value="true" />
+      <created>1787734894422</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1787734894422</updated>
+    </task>
+    <option name="localTasksCounter" value="49" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -450,8 +466,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="5550" />
-    <MESSAGE value="legend" />
     <MESSAGE value="fix_color" />
     <MESSAGE value="ts1551" />
     <MESSAGE value="fspro" />
@@ -475,6 +489,8 @@
     <MESSAGE value="ts" />
     <MESSAGE value="reverse" />
     <MESSAGE value="img2" />
-    <option name="LAST_COMMIT_MESSAGE" value="img2" />
+    <MESSAGE value="order" />
+    <MESSAGE value="newts" />
+    <option name="LAST_COMMIT_MESSAGE" value="newts" />
   </component>
 </project>
