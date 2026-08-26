@@ -92,6 +92,14 @@ REQUIRED_COLUMNS = [
 ]
 
 SERIES_COLUMN = "serie"
+TYPE_ORDER = [
+    "tv stands",
+    "mobile stands",
+    "motorised",
+    "design | interior",
+    "touch panel",
+    "universal alluminum",
+]
 
 
 def normalize_type(value) -> str:
@@ -449,7 +457,9 @@ def active_segments(df: pd.DataFrame) -> list[dict]:
 
 
 def render_matrix(df: pd.DataFrame, segments: list[dict]) -> None:
-    type_values = list(df["Type"].dropna().unique())
+    available_types = list(df["Type"].dropna().unique())
+    type_values = [type_name for type_name in TYPE_ORDER if type_name in available_types]
+    type_values.extend(type_name for type_name in available_types if type_name not in type_values)
 
     html_parts = ["<div class='matrix-wrap'><table class='matrix'>"]
 
