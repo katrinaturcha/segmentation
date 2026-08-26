@@ -347,16 +347,28 @@ def cell_status_class(cell_df: pd.DataFrame) -> str:
 
 def active_segments(df: pd.DataFrame) -> list[dict]:
     """Build the displayed category columns from the current Excel data."""
-    result = []
+    categories = []
     for name in df["segment"].dropna().unique():
         category_df = df[df["segment"] == name]
-        load_values = category_df["Load capacity category kg"].dropna().astype(str).unique()
+        diagonal_values = category_df["Diagonal category"].dropna().astype(str)
+        maximum_diagonal = max(
+            (float(value) for text in diagonal_values for value in re.findall(r"\d+(?:[.,]\d+)?", text.replace(",", "."))),
+            default=float("inf"),
+        )
+        categories.append((maximum_diagonal, str(name), category_df))
+
+    load_values = sorted(
+        df["Load capacity category kg"].dropna().astype(str).unique(),
+        key=lambda value: extract_number(value) if extract_number(value) is not None else float("inf"),
+    )
+    result = []
+    for index, (_, name, category_df) in enumerate(sorted(categories)):
         vesa_values = category_df["VESA category"].dropna().astype(str).unique()
         result.append(
             {
-                "name": str(name),
-                "load_label": ", ".join(load_values) or "—",
-                "diagonal": str(name),
+                "name": name,
+                "load_label": load_values[index] if index < len(load_values) else "—",
+                "diagonal": name,
                 "margin": "—",
                 "vesa": ", ".join(vesa_values) or "—",
             }
