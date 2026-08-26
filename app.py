@@ -167,6 +167,20 @@ def prepare_df(file_path: str, file_mtime: float) -> pd.DataFrame:
 
     df["diagonal_segment"] = df.apply(detect_diagonal_segment, axis=1)
     df["load_segment"] = df.apply(detect_load_segment, axis=1)
+    diagonal_values = [value for value in df["diagonal_segment"].unique() if value != "НЕ ОПРЕДЕЛЕНО"]
+    diagonal_ranks = {
+        value: rank for rank, value in enumerate(
+            sorted(diagonal_values, key=lambda item: extract_number(item) or float("inf")), start=1
+        )
+    }
+    load_values = [value for value in df["load_segment"].unique() if value != "НЕ ОПРЕДЕЛЕНО"]
+    load_ranks = {
+        value: rank for rank, value in enumerate(
+            sorted(load_values, key=float), start=1
+        )
+    }
+    df["diagonal_rank"] = df["diagonal_segment"].map(diagonal_ranks)
+    df["load_rank"] = df["load_segment"].map(load_ranks)
     df["load_status"] = df.apply(detect_load_status, axis=1)
     df["final_segment"] = df.apply(build_final_segment, axis=1)
     df["segment"] = df.apply(display_category, axis=1)
