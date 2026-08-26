@@ -523,6 +523,30 @@ st.markdown(
     .title-block h1 {font-size: 34px; line-height: 0.95; margin-bottom: 0; color: #10243a;}
     .title-block h3 {font-size: 18px; margin-top: 8px; color: #10243a;}
 
+    [data-testid="stMain"] div.stButton > button {
+        min-width: 230px;
+        min-height: 82px;
+        padding: 14px 28px;
+        border: 3px solid #ed1c24;
+        border-radius: 10px;
+        background: #fff;
+        color: #ed1c24;
+        font-size: 27px;
+        font-weight: 800;
+        letter-spacing: 0.02em;
+    }
+
+    [data-testid="stMain"] div.stButton > button:hover {
+        border-color: #b90f17;
+        background: #fff2f2;
+        color: #b90f17;
+    }
+
+    [data-testid="stMain"] div.stButton > button[kind="primary"] {
+        background: #ed1c24;
+        color: #fff;
+    }
+
     .legend {
         display: flex;
         gap: 14px;
@@ -783,24 +807,32 @@ summary = (
 )
 
 series_values = list(df[SERIES_COLUMN].dropna().unique())
-series_tabs = st.tabs(series_values)
+if "selected_series" not in st.session_state or st.session_state.selected_series not in series_values:
+    st.session_state.selected_series = series_values[0]
 
-for tab, series_name in zip(series_tabs, series_values):
-    with tab:
-        series_df = df[df[SERIES_COLUMN] == series_name]
-        series_segments = active_segments(series_df)
+with st.container(horizontal=True, horizontal_alignment="left"):
+    for series_name in series_values:
+        if st.button(
+            series_name,
+            key=f"series_button_{series_name}",
+            type="primary" if series_name == st.session_state.selected_series else "secondary",
+        ):
+            st.session_state.selected_series = series_name
 
-        col1, col2, col3 = st.columns(3)
-        col4, col5, col6 = st.columns(3)
+series_df = df[df[SERIES_COLUMN] == st.session_state.selected_series]
+series_segments = active_segments(series_df)
 
-        col1.metric("Всего SKU", len(series_df))
-        col2.metric("Типов", series_df["Type"].nunique())
-        col3.metric("Не определено", int((series_df["segment"] == "НЕ ОПРЕДЕЛЕНО").sum()))
-        col4.metric("Нагрузка ниже диагонали", int((series_df["load_status"] == "low").sum()))
-        col5.metric("Нагрузка соответствует", int((series_df["load_status"] == "ok").sum()))
-        col6.metric("Нагрузка выше диагонали", int((series_df["load_status"] == "high").sum()))
+col1, col2, col3 = st.columns(3)
+col4, col5, col6 = st.columns(3)
 
-        render_matrix(series_df, series_segments)
+col1.metric("Всего SKU", len(series_df))
+col2.metric("Типов", series_df["Type"].nunique())
+col3.metric("Не определено", int((series_df["segment"] == "НЕ ОПРЕДЕЛЕНО").sum()))
+col4.metric("Нагрузка ниже диагонали", int((series_df["load_status"] == "low").sum()))
+col5.metric("Нагрузка соответствует", int((series_df["load_status"] == "ok").sum()))
+col6.metric("Нагрузка выше диагонали", int((series_df["load_status"] == "high").sum()))
+
+render_matrix(series_df, series_segments)
 
 if show_table:
     st.subheader("Исходные данные")
