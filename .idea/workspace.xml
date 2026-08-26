@@ -445,7 +445,15 @@
       <option name="project" value="LOCAL" />
       <updated>1787734894422</updated>
     </task>
-    <option name="localTasksCounter" value="49" />
+    <task id="LOCAL-00049" summary="DS">
+      <option name="closed" value="true" />
+      <created>1787736386147</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1787736386147</updated>
+    </task>
+    <option name="localTasksCounter" value="50" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -476,7 +484,6 @@
     <MESSAGE value="gg2" />
     <MESSAGE value="gg23" />
     <MESSAGE value="gg24" />
-    <MESSAGE value="DS" />
     <MESSAGE value="DS2" />
     <MESSAGE value="PRO" />
     <MESSAGE value="excel" />
@@ -491,6 +498,7 @@
     <MESSAGE value="img2" />
     <MESSAGE value="order" />
     <MESSAGE value="newts" />
-    <option name="LAST_COMMIT_MESSAGE" value="newts" />
+    <MESSAGE value="DS" />
+    <option name="LAST_COMMIT_MESSAGE" value="DS" />
   </component>
 </project>
