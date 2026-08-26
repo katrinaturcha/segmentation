@@ -76,22 +76,6 @@ SEGMENT_BY_LOAD = {
     150: "HEAVY XL",
 }
 
-DEFAULT_TYPE_ORDER = [
-    "tv stands",
-    "mobile stands",
-    "motorised",
-    "design | interior",
-    "universal aluminum",
-    "touch panel",
-    "pro",
-]
-
-TYPE_DISPLAY = {
-    "pro": "PRO",
-    "touch panel": "touch panel",
-    "mobile stands": "mobile stands",
-}
-
 REQUIRED_COLUMNS = [
     "image_url",
     "sku",
@@ -106,6 +90,8 @@ REQUIRED_COLUMNS = [
     "максимальная суммарная нагрузка (с полками) кг",
     "описание",
 ]
+
+SERIES_COLUMN = "serie"
 
 
 def normalize_type(value) -> str:
@@ -128,6 +114,13 @@ def normalize_type(value) -> str:
         return "mobile stands"
 
     return text
+
+
+def normalize_series(value) -> str:
+    if pd.isna(value) or not str(value).strip():
+        return "Все товары"
+
+    return str(value).strip()
 
 
 def normalize_diagonal_category(value) -> Optional[str]:
@@ -262,6 +255,10 @@ def prepare_df(file_path: str, file_mtime: float) -> pd.DataFrame:
         if col not in df.columns:
             df[col] = None
 
+    if SERIES_COLUMN not in df.columns:
+        df[SERIES_COLUMN] = "Все товары"
+
+    df[SERIES_COLUMN] = df[SERIES_COLUMN].apply(normalize_series)
     df["Type"] = df["Type"].apply(normalize_type)
     df["sku"] = df["sku"].fillna("").astype(str).str.strip()
 
@@ -431,45 +428,63 @@ def cell_status_class(cell_df: pd.DataFrame) -> str:
     return "cell-ok"
 
 
-def render_matrix(df: pd.DataFrame) -> None:
-    type_values = [t for t in DEFAULT_TYPE_ORDER if t in set(df["Type"])]
-    type_values += sorted([t for t in df["Type"].dropna().unique() if t not in type_values])
+def active_segments(df: pd.DataFrame) -> list[dict]:
+    """Return only the segment columns represented in the current data."""
+    names = [str(name) for name in df["segment"].dropna().unique()]
+    configured = {segment["name"]: segment for segment in SEGMENTS}
+    result = [segment for segment in SEGMENTS if segment["name"] in names]
+
+    for name in sorted(name for name in names if name not in configured):
+        result.append(
+            {
+                "name": name,
+                "load_label": "—",
+                "diagonal": "—",
+                "margin": "—",
+                "vesa": "—",
+            }
+        )
+
+    return result
+
+
+def render_matrix(df: pd.DataFrame, segments: list[dict]) -> None:
+    type_values = list(df["Type"].dropna().unique())
 
     html_parts = ["<div class='matrix-wrap'><table class='matrix'>"]
 
     html_parts.append("<tr><th class='black-head'>СЕГМЕНТАЦИЯ</th>")
 
-    for s in SEGMENTS:
+    for s in segments:
         html_parts.append(f"<th class='segment-head'>{s['name']}</th>")
 
     html_parts.append("</tr>")
 
     html_parts.append("<tr><td class='left-title'>МАКС.<br>НАГРУЗКА</td>")
 
-    for s in SEGMENTS:
+    for s in segments:
         html_parts.append(f"<td class='top-cell'><b>{s['load_label']}</b></td>")
 
     html_parts.append("</tr>")
 
     html_parts.append("<tr><td class='left-title'>VESA</td>")
 
-    for s in SEGMENTS:
+    for s in segments:
         html_parts.append(f"<td class='vesa-cell'>{html.escape(s['vesa'])}</td>")
 
     html_parts.append("</tr>")
 
     html_parts.append("<tr><td class='left-title'>РАЗМЕР<br>ЭКРАНОВ</td>")
 
-    for s in SEGMENTS:
+    for s in segments:
         html_parts.append(f"<td class='top-cell'><b>{html.escape(s['diagonal'])}</b></td>")
 
     html_parts.append("</tr>")
 
     for type_name in type_values:
-        display_type = TYPE_DISPLAY.get(type_name, type_name)
-        html_parts.append(f"<tr><td class='type-cell'>{html.escape(display_type)}</td>")
+        html_parts.append(f"<tr><td class='type-cell'>{html.escape(type_name)}</td>")
 
-        for s in SEGMENTS:
+        for s in segments:
             cell_df = df[
                 (df["Type"] == type_name)
                 & (df["segment"] == s["name"])
@@ -494,7 +509,7 @@ def render_matrix(df: pd.DataFrame) -> None:
 
     html_parts.append("<tr><td class='margin-title'>МАРЖИНАЛЬНОСТЬ</td>")
 
-    for s in SEGMENTS:
+    for s in segments:
         html_parts.append(f"<td class='margin-cell'>{s['margin']}</td>")
 
     html_parts.append("</tr></table></div>")
@@ -754,32 +769,42 @@ if not DATA_FILE.exists():
 with st.spinner("Загружаю файл и картинки..."):
     df = prepare_df(str(DATA_FILE), DATA_FILE.stat().st_mtime)
 
+segments_for_export = active_segments(df)
 summary = (
     df.pivot_table(
-        index="Type",
+        index=[SERIES_COLUMN, "Type"],
         columns="segment",
         values="sku",
         aggfunc="count",
         fill_value=0,
     )
-    .reindex(columns=[s["name"] for s in SEGMENTS], fill_value=0)
+    .reindex(columns=[s["name"] for s in segments_for_export], fill_value=0)
     .reset_index()
 )
 
-col1, col2, col3, col4, col5, col6 = st.columns(6)
+series_values = list(df[SERIES_COLUMN].dropna().unique())
+series_tabs = st.tabs(series_values)
 
-col1.metric("Всего SKU", len(df))
-col2.metric("Типов", df["Type"].nunique())
-col3.metric("Не определено", int((df["segment"] == "НЕ ОПРЕДЕЛЕНО").sum()))
-col4.metric("Нагрузка ниже диагонали", int((df["load_status"] == "low").sum()))
-col5.metric("Нагрузка соответствует", int((df["load_status"] == "ok").sum()))
-col6.metric("Нагрузка выше диагонали", int((df["load_status"] == "high").sum()))
+for tab, series_name in zip(series_tabs, series_values):
+    with tab:
+        series_df = df[df[SERIES_COLUMN] == series_name]
+        series_segments = active_segments(series_df)
 
-render_matrix(df)
+        col1, col2, col3 = st.columns(3)
+        col4, col5, col6 = st.columns(3)
+
+        col1.metric("Всего SKU", len(series_df))
+        col2.metric("Типов", series_df["Type"].nunique())
+        col3.metric("Не определено", int((series_df["segment"] == "НЕ ОПРЕДЕЛЕНО").sum()))
+        col4.metric("Нагрузка ниже диагонали", int((series_df["load_status"] == "low").sum()))
+        col5.metric("Нагрузка соответствует", int((series_df["load_status"] == "ok").sum()))
+        col6.metric("Нагрузка выше диагонали", int((series_df["load_status"] == "high").sum()))
+
+        render_matrix(series_df, series_segments)
 
 if show_table:
     st.subheader("Исходные данные")
-    st.dataframe(df, use_container_width=True)
+    st.dataframe(df, width="stretch")
 
 buffer = BytesIO()
 summary.to_excel(buffer, index=False)
