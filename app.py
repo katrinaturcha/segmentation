@@ -274,7 +274,9 @@ def prepare_df(file_path: str, file_mtime: float) -> pd.DataFrame:
     df["load_segment"] = df.apply(detect_load_segment, axis=1)
     df["load_status"] = df.apply(detect_load_status, axis=1)
     df["final_segment"] = df.apply(build_final_segment, axis=1)
-    df["segment"] = df["diagonal_segment"]
+    # Основное размещение в матрице определяется категорией нагрузки.
+    # Диагональ используется только для статуса соответствия нагрузки.
+    df["segment"] = df["load_segment"]
 
     return df
 

@@ -5,7 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d6c24a3f-3438-4523-bed9-0f1dad16c985" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/images/TS1137-W.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sample_test_onkron.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/sample_test_onkron.xlsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,22 +65,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1781609234649</updated>
-    </task>
-    <task id="LOCAL-00002" summary="tooltip">
-      <option name="closed" value="true" />
-      <created>1781680673880</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1781680673880</updated>
-    </task>
-    <task id="LOCAL-00003" summary="raw_data">
-      <option name="closed" value="true" />
-      <created>1781680867495</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1781680867495</updated>
     </task>
     <task id="LOCAL-00004" summary="prepare_df">
       <option name="closed" value="true" />
@@ -455,7 +442,23 @@
       <option name="project" value="LOCAL" />
       <updated>1787738438552</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary="DV">
+      <option name="closed" value="true" />
+      <created>1787907408461</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1787907408461</updated>
+    </task>
+    <task id="LOCAL-00052" summary="DD">
+      <option name="closed" value="true" />
+      <created>1787907531171</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1787907531171</updated>
+    </task>
+    <option name="localTasksCounter" value="53" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -476,7 +479,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="ts1551" />
     <MESSAGE value="fspro" />
     <MESSAGE value="images" />
     <MESSAGE value="images2" />
@@ -501,6 +503,7 @@
     <MESSAGE value="newts" />
     <MESSAGE value="DS" />
     <MESSAGE value="DV" />
-    <option name="LAST_COMMIT_MESSAGE" value="DV" />
+    <MESSAGE value="DD" />
+    <option name="LAST_COMMIT_MESSAGE" value="DD" />
   </component>
 </project>
