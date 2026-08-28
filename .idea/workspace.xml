@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d6c24a3f-3438-4523-bed9-0f1dad16c985" name="Changes" comment="" />
+    <list default="true" id="d6c24a3f-3438-4523-bed9-0f1dad16c985" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -60,14 +62,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1781609234649</updated>
-    </task>
-    <task id="LOCAL-00001" summary="first">
-      <option name="closed" value="true" />
-      <created>1781618280137</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1781618280137</updated>
     </task>
     <task id="LOCAL-00002" summary="tooltip">
       <option name="closed" value="true" />
@@ -453,7 +447,15 @@
       <option name="project" value="LOCAL" />
       <updated>1787736386147</updated>
     </task>
-    <option name="localTasksCounter" value="50" />
+    <task id="LOCAL-00050" summary="DV">
+      <option name="closed" value="true" />
+      <created>1787738438550</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1787738438552</updated>
+    </task>
+    <option name="localTasksCounter" value="51" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -474,7 +476,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fix_color" />
     <MESSAGE value="ts1551" />
     <MESSAGE value="fspro" />
     <MESSAGE value="images" />
@@ -499,6 +500,7 @@
     <MESSAGE value="order" />
     <MESSAGE value="newts" />
     <MESSAGE value="DS" />
-    <option name="LAST_COMMIT_MESSAGE" value="DS" />
+    <MESSAGE value="DV" />
+    <option name="LAST_COMMIT_MESSAGE" value="DV" />
   </component>
 </project>
