@@ -5,6 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d6c24a3f-3438-4523-bed9-0f1dad16c985" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sample_test_onkron.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/sample_test_onkron.xlsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -62,22 +64,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1781609234649</updated>
-    </task>
-    <task id="LOCAL-00015" summary="return">
-      <option name="closed" value="true" />
-      <created>1781701552198</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1781701552198</updated>
-    </task>
-    <task id="LOCAL-00016" summary="norm_again">
-      <option name="closed" value="true" />
-      <created>1781703097251</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1781703097251</updated>
     </task>
     <task id="LOCAL-00017" summary="PRO">
       <option name="closed" value="true" />
@@ -455,7 +441,23 @@
       <option name="project" value="LOCAL" />
       <updated>1787917376392</updated>
     </task>
-    <option name="localTasksCounter" value="64" />
+    <task id="LOCAL-00064" summary="35 kg">
+      <option name="closed" value="true" />
+      <created>1787917680899</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1787917680899</updated>
+    </task>
+    <task id="LOCAL-00065" summary="40 kg">
+      <option name="closed" value="true" />
+      <created>1787918140641</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1787918140641</updated>
+    </task>
+    <option name="localTasksCounter" value="66" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -476,8 +478,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="button" />
-    <MESSAGE value="color" />
     <MESSAGE value="new" />
     <MESSAGE value="TS1552W" />
     <MESSAGE value="categ auto" />
@@ -501,6 +501,8 @@
     <MESSAGE value="MEDIUM" />
     <MESSAGE value="VESA" />
     <MESSAGE value="100 kg" />
-    <option name="LAST_COMMIT_MESSAGE" value="100 kg" />
+    <MESSAGE value="35 kg" />
+    <MESSAGE value="40 kg" />
+    <option name="LAST_COMMIT_MESSAGE" value="40 kg" />
   </component>
 </project>

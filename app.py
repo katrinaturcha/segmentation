@@ -24,7 +24,7 @@ SEGMENTS = [
     },
     {
         "name": "LIGHT",
-        "load_label": "60 kg",
+        "load_label": "49 kg",
         "diagonal": '32"-65"',
         "margin": "20%",
         "vesa": "600x400",
@@ -79,7 +79,7 @@ SEGMENT_BY_DIAGONAL = {
 
 SEGMENT_BY_LOAD = {
     40: "BASIC",
-    60: "LIGHT",
+    49: "LIGHT",
     70: "STANDART",
     100: "MEDIUM",
     120: "HEAVY",
@@ -192,7 +192,7 @@ def normalize_load_category(value) -> Optional[int]:
     if number is None:
         return None
 
-    for max_load in [40, 60, 70, 100, 120, 150]:
+    for max_load in [40, 49, 70, 100, 120, 150]:
         if number <= max_load:
             return max_load
 
