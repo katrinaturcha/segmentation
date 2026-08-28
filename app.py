@@ -17,7 +17,7 @@ DATA_FILE = APP_DIR / "sample_test_onkron.xlsx"
 SEGMENTS = [
     {
         "name": "BASIC",
-        "load_label": "35 kg",
+        "load_label": "40 kg",
         "diagonal": '17"-60"',
         "margin": "12%",
         "vesa": "400x400",
@@ -78,7 +78,7 @@ SEGMENT_BY_DIAGONAL = {
 }
 
 SEGMENT_BY_LOAD = {
-    35: "BASIC",
+    40: "BASIC",
     60: "LIGHT",
     70: "STANDART",
     100: "MEDIUM",
@@ -192,7 +192,7 @@ def normalize_load_category(value) -> Optional[int]:
     if number is None:
         return None
 
-    for max_load in [35, 60, 70, 100, 120, 150]:
+    for max_load in [40, 60, 70, 100, 120, 150]:
         if number <= max_load:
             return max_load
 
