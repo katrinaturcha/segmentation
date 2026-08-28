@@ -38,7 +38,7 @@ SEGMENTS = [
     },
     {
         "name": "MEDIUM",
-        "load_label": "90 kg",
+        "load_label": "100 kg",
         "diagonal": '50"-90"',
         "margin": "28%",
         "vesa": "900x600",
@@ -81,7 +81,7 @@ SEGMENT_BY_LOAD = {
     35: "BASIC",
     60: "LIGHT",
     70: "STANDART",
-    90: "MEDIUM",
+    100: "MEDIUM",
     120: "HEAVY",
     150: "HEAVY XL",
 }
@@ -192,7 +192,7 @@ def normalize_load_category(value) -> Optional[int]:
     if number is None:
         return None
 
-    for max_load in [35, 60, 70, 90, 120, 150]:
+    for max_load in [35, 60, 70, 100, 120, 150]:
         if number <= max_load:
             return max_load
 
@@ -209,11 +209,7 @@ def detect_diagonal_segment(row: pd.Series) -> str:
 
 
 def detect_load_segment(row: pd.Series) -> str:
-    raw_load = normalize_load_category(row.get("максимальная нагрузка кг"))
-
-    if raw_load in SEGMENT_BY_LOAD:
-        return SEGMENT_BY_LOAD[raw_load]
-
+    # Размещение определяется только категорией нагрузки из Excel.
     load_category = normalize_load_category(row.get("Load capacity category kg"))
 
     if load_category in SEGMENT_BY_LOAD:
