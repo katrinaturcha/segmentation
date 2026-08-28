@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d6c24a3f-3438-4523-bed9-0f1dad16c985" name="Changes" comment="" />
+    <list default="true" id="d6c24a3f-3438-4523-bed9-0f1dad16c985" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/images/TS1881-B_V2.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sample_test_onkron.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/sample_test_onkron.xlsx" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -60,14 +65,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1781609234649</updated>
-    </task>
-    <task id="LOCAL-00011" summary="detect_segment_DIAG">
-      <option name="closed" value="true" />
-      <created>1781689320740</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1781689320740</updated>
     </task>
     <task id="LOCAL-00012" summary="seg">
       <option name="closed" value="true" />
@@ -453,7 +450,15 @@
       <option name="project" value="LOCAL" />
       <updated>1787914772836</updated>
     </task>
-    <option name="localTasksCounter" value="60" />
+    <task id="LOCAL-00060" summary="1991">
+      <option name="closed" value="true" />
+      <created>1787915645178</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1787915645178</updated>
+    </task>
+    <option name="localTasksCounter" value="61" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -474,7 +479,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="gg24" />
     <MESSAGE value="DS2" />
     <MESSAGE value="PRO" />
     <MESSAGE value="excel" />
@@ -499,6 +503,7 @@
     <MESSAGE value="NEWTS_" />
     <MESSAGE value="NEWTS_2" />
     <MESSAGE value="WO" />
-    <option name="LAST_COMMIT_MESSAGE" value="WO" />
+    <MESSAGE value="1991" />
+    <option name="LAST_COMMIT_MESSAGE" value="1991" />
   </component>
 </project>

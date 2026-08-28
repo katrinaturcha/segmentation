@@ -37,6 +37,13 @@ SEGMENTS = [
         "vesa": "300x300, 400x200, 400x300, 400x400, 500x400, 500x500, 600x300, 600x400, Prof 600x500, 600x600, 700x400, 700x500, 700x700, 800x400",
     },
     {
+        "name": "MEDIUM",
+        "load_label": "90 kg",
+        "diagonal": '50"-90"',
+        "margin": "—",
+        "vesa": "900x600",
+    },
+    {
         "name": "HEAVY",
         "load_label": "120 kg",
         "diagonal": '60"-100"',
@@ -56,14 +63,16 @@ SEGMENT_ORDER = {
     "BASIC": 1,
     "LIGHT": 2,
     "STANDART": 3,
-    "HEAVY": 4,
-    "HEAVY XL": 5,
+    "MEDIUM": 4,
+    "HEAVY": 5,
+    "HEAVY XL": 6,
 }
 
 SEGMENT_BY_DIAGONAL = {
     '17"-60"': "BASIC",
     '32"-65"': "LIGHT",
     '40"-75"': "STANDART",
+    '50"-90"': "MEDIUM",
     '60"-100"': "HEAVY",
     '75"-120"': "HEAVY XL",
 }
@@ -72,6 +81,7 @@ SEGMENT_BY_LOAD = {
     35: "BASIC",
     60: "LIGHT",
     70: "STANDART",
+    90: "MEDIUM",
     120: "HEAVY",
     150: "HEAVY XL",
 }
@@ -152,6 +162,9 @@ def normalize_diagonal_category(value) -> Optional[str]:
         '40"75"': '40"-75"',
         '43"-75"': '40"-75"',
         "43-75": '40"-75"',
+        '50"-90"': '50"-90"',
+        "50-90": '50"-90"',
+        '50"90"': '50"-90"',
         '60"-100"': '60"-100"',
         "60-100": '60"-100"',
         '60"100"': '60"-100"',
@@ -179,7 +192,7 @@ def normalize_load_category(value) -> Optional[int]:
     if number is None:
         return None
 
-    for max_load in [35, 60, 70, 120, 150]:
+    for max_load in [35, 60, 70, 90, 120, 150]:
         if number <= max_load:
             return max_load
 
@@ -439,23 +452,8 @@ def cell_status_class(cell_df: pd.DataFrame) -> str:
 
 
 def active_segments(df: pd.DataFrame) -> list[dict]:
-    """Return only the segment columns represented in the current data."""
-    names = [str(name) for name in df["segment"].dropna().unique()]
-    configured = {segment["name"]: segment for segment in SEGMENTS}
-    result = [segment for segment in SEGMENTS if segment["name"] in names]
-
-    for name in sorted(name for name in names if name not in configured):
-        result.append(
-            {
-                "name": name,
-                "load_label": "—",
-                "diagonal": "—",
-                "margin": "—",
-                "vesa": "—",
-            }
-        )
-
-    return result
+    """Show every configured load category, including an empty one."""
+    return SEGMENTS
 
 
 def render_matrix(df: pd.DataFrame, segments: list[dict]) -> None:
