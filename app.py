@@ -360,7 +360,7 @@ def local_image_to_data_uri(path_text: str, modified_at: int) -> str:
 
 
 def product_tile_html(row: pd.Series) -> str:
-    sku = html.escape(str(row.get("sku", "") or "без sku"))
+    sku = html.escape(str(row.get("sku", "") or ""))
 
     diagonal = html.escape(safe_text(row.get("максимальная диагональ")))
     load = html.escape(safe_text(row.get("максимальная нагрузка кг")))
