@@ -61,22 +61,6 @@
       <option name="presentableId" value="Default" />
       <updated>1781609234649</updated>
     </task>
-    <task id="LOCAL-00009" summary="delete_pivot">
-      <option name="closed" value="true" />
-      <created>1781683835227</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1781683835227</updated>
-    </task>
-    <task id="LOCAL-00010" summary="margincell">
-      <option name="closed" value="true" />
-      <created>1781684337271</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1781684337271</updated>
-    </task>
     <task id="LOCAL-00011" summary="detect_segment_DIAG">
       <option name="closed" value="true" />
       <created>1781689320740</created>
@@ -453,7 +437,23 @@
       <option name="project" value="LOCAL" />
       <updated>1787914531572</updated>
     </task>
-    <option name="localTasksCounter" value="58" />
+    <task id="LOCAL-00058" summary="NEWTS_2">
+      <option name="closed" value="true" />
+      <created>1787914644509</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1787914644510</updated>
+    </task>
+    <task id="LOCAL-00059" summary="WO">
+      <option name="closed" value="true" />
+      <created>1787914772836</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1787914772836</updated>
+    </task>
+    <option name="localTasksCounter" value="60" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -474,8 +474,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="gg2" />
-    <MESSAGE value="gg23" />
     <MESSAGE value="gg24" />
     <MESSAGE value="DS2" />
     <MESSAGE value="PRO" />
@@ -499,6 +497,8 @@
     <MESSAGE value="1571W" />
     <MESSAGE value="NEWTS" />
     <MESSAGE value="NEWTS_" />
-    <option name="LAST_COMMIT_MESSAGE" value="NEWTS_" />
+    <MESSAGE value="NEWTS_2" />
+    <MESSAGE value="WO" />
+    <option name="LAST_COMMIT_MESSAGE" value="WO" />
   </component>
 </project>
