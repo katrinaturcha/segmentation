@@ -61,22 +61,6 @@
       <option name="presentableId" value="Default" />
       <updated>1781609234649</updated>
     </task>
-    <task id="LOCAL-00005" summary="fspro">
-      <option name="closed" value="true" />
-      <created>1781681708416</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1781681708416</updated>
-    </task>
-    <task id="LOCAL-00006" summary="max_load">
-      <option name="closed" value="true" />
-      <created>1781682883546</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1781682883546</updated>
-    </task>
     <task id="LOCAL-00007" summary="segments">
       <option name="closed" value="true" />
       <created>1781683562022</created>
@@ -453,7 +437,23 @@
       <option name="project" value="LOCAL" />
       <updated>1787913337905</updated>
     </task>
-    <option name="localTasksCounter" value="54" />
+    <task id="LOCAL-00054" summary="platform">
+      <option name="closed" value="true" />
+      <created>1787913813005</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1787913813005</updated>
+    </task>
+    <task id="LOCAL-00055" summary="1571W">
+      <option name="closed" value="true" />
+      <created>1787913951691</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1787913951691</updated>
+    </task>
+    <option name="localTasksCounter" value="56" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -474,8 +474,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="images" />
-    <MESSAGE value="images2" />
     <MESSAGE value="load35" />
     <MESSAGE value="gg" />
     <MESSAGE value="gg2" />
@@ -499,6 +497,8 @@
     <MESSAGE value="DV" />
     <MESSAGE value="DD" />
     <MESSAGE value="load cap" />
-    <option name="LAST_COMMIT_MESSAGE" value="load cap" />
+    <MESSAGE value="platform" />
+    <MESSAGE value="1571W" />
+    <option name="LAST_COMMIT_MESSAGE" value="1571W" />
   </component>
 </project>
