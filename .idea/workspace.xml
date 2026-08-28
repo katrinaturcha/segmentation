@@ -5,8 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d6c24a3f-3438-4523-bed9-0f1dad16c985" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sample_test_onkron.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/sample_test_onkron.xlsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -64,14 +62,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1781609234649</updated>
-    </task>
-    <task id="LOCAL-00014" summary="normalize">
-      <option name="closed" value="true" />
-      <created>1781701415625</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1781701415625</updated>
     </task>
     <task id="LOCAL-00015" summary="return">
       <option name="closed" value="true" />
@@ -457,7 +447,15 @@
       <option name="project" value="LOCAL" />
       <updated>1787917010769</updated>
     </task>
-    <option name="localTasksCounter" value="63" />
+    <task id="LOCAL-00063" summary="100 kg">
+      <option name="closed" value="true" />
+      <created>1787917376392</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1787917376392</updated>
+    </task>
+    <option name="localTasksCounter" value="64" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -478,7 +476,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="excel" />
     <MESSAGE value="button" />
     <MESSAGE value="color" />
     <MESSAGE value="new" />
@@ -503,6 +500,7 @@
     <MESSAGE value="1991" />
     <MESSAGE value="MEDIUM" />
     <MESSAGE value="VESA" />
-    <option name="LAST_COMMIT_MESSAGE" value="VESA" />
+    <MESSAGE value="100 kg" />
+    <option name="LAST_COMMIT_MESSAGE" value="100 kg" />
   </component>
 </project>
