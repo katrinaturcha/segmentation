@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d6c24a3f-3438-4523-bed9-0f1dad16c985" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sample_test_onkron.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/sample_test_onkron.xlsx" afterDir="false" />
-    </list>
+    <list default="true" id="d6c24a3f-3438-4523-bed9-0f1dad16c985" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -31,15 +27,14 @@
     <option name="showLibraryContents" value="true" />
     <option name="showMembers" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.app.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/e.turchaninova/PycharmProjects/segmentation&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.app.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "C:/Users/e.turchaninova/PycharmProjects/segmentation"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\e.turchaninova\PycharmProjects\segmentation" />
@@ -64,22 +59,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1781609234649</updated>
-    </task>
-    <task id="LOCAL-00017" summary="PRO">
-      <option name="closed" value="true" />
-      <created>1782219217748</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1782219217748</updated>
-    </task>
-    <task id="LOCAL-00018" summary="DEFAULT_TYPE_ORDER">
-      <option name="closed" value="true" />
-      <created>1782219571717</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1782219571717</updated>
     </task>
     <task id="LOCAL-00019" summary="order">
       <option name="closed" value="true" />
@@ -457,7 +436,23 @@
       <option name="project" value="LOCAL" />
       <updated>1787918140641</updated>
     </task>
-    <option name="localTasksCounter" value="66" />
+    <task id="LOCAL-00066" summary="45 kg">
+      <option name="closed" value="true" />
+      <created>1787918457490</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1787918457490</updated>
+    </task>
+    <task id="LOCAL-00067" summary="1380delet">
+      <option name="closed" value="true" />
+      <created>1787918732975</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1787918732975</updated>
+    </task>
+    <option name="localTasksCounter" value="68" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -478,8 +473,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="new" />
-    <MESSAGE value="TS1552W" />
     <MESSAGE value="categ auto" />
     <MESSAGE value="categ fix" />
     <MESSAGE value="ts" />
@@ -503,6 +496,8 @@
     <MESSAGE value="100 kg" />
     <MESSAGE value="35 kg" />
     <MESSAGE value="40 kg" />
-    <option name="LAST_COMMIT_MESSAGE" value="40 kg" />
+    <MESSAGE value="45 kg" />
+    <MESSAGE value="1380delet" />
+    <option name="LAST_COMMIT_MESSAGE" value="1380delet" />
   </component>
 </project>
