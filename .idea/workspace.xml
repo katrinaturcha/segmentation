@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d6c24a3f-3438-4523-bed9-0f1dad16c985" name="Changes" comment="" />
+    <list default="true" id="d6c24a3f-3438-4523-bed9-0f1dad16c985" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -60,14 +62,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1781609234649</updated>
-    </task>
-    <task id="LOCAL-00029" summary="gg">
-      <option name="closed" value="true" />
-      <created>1787229784876</created>
-      <option name="number" value="00029" />
-      <option name="presentableId" value="LOCAL-00029" />
-      <option name="project" value="LOCAL" />
-      <updated>1787229784876</updated>
     </task>
     <task id="LOCAL-00030" summary="gg2">
       <option name="closed" value="true" />
@@ -453,7 +447,15 @@
       <option name="project" value="LOCAL" />
       <updated>1788942320816</updated>
     </task>
-    <option name="localTasksCounter" value="78" />
+    <task id="LOCAL-00078" summary="title">
+      <option name="closed" value="true" />
+      <created>1788942629966</created>
+      <option name="number" value="00078" />
+      <option name="presentableId" value="LOCAL-00078" />
+      <option name="project" value="LOCAL" />
+      <updated>1788942629966</updated>
+    </task>
+    <option name="localTasksCounter" value="79" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -474,7 +476,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="DD" />
     <MESSAGE value="load cap" />
     <MESSAGE value="platform" />
     <MESSAGE value="1571W" />
@@ -499,6 +500,7 @@
     <MESSAGE value="excel upd" />
     <MESSAGE value="new upd" />
     <MESSAGE value="black button" />
-    <option name="LAST_COMMIT_MESSAGE" value="black button" />
+    <MESSAGE value="title" />
+    <option name="LAST_COMMIT_MESSAGE" value="title" />
   </component>
 </project>
