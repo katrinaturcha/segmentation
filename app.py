@@ -762,17 +762,7 @@ st.markdown(
     </style>
     <style>[data-testid="stMain"]{padding:0 22px}.title-block h1{font-size:40px;line-height:.92;color:#050505;letter-spacing:-1px;margin:10px 0 0}.title-block h3{font-size:14px;color:#050505;margin:10px 0 28px}.legend{font-size:9px;gap:10px;margin:0 0 14px}.legend-box{width:11px;height:11px;border-width:1px;border-radius:2px}table.matrix{min-width:0;width:100%}.matrix th,.matrix td{padding:4px;border-color:#1f1f1f}.black-head{width:130px;background:#1d1d1d!important;color:#fff!important;font-family:Arial,sans-serif;font-size:10px!important;font-weight:800;letter-spacing:-.2px}.segment-head{height:30px;font-family:Arial,sans-serif;font-size:15px!important;font-weight:800;letter-spacing:-.35px;color:#fff!important;background:#c9c9c9!important;border-radius:5px 5px 0 0}.segment-head:nth-child(3){background:#b6b6b6!important}.segment-head:nth-child(4){background:#a2a2a2!important}.segment-head:nth-child(5){background:#878787!important}.segment-head:nth-child(6){background:#666!important}.left-title{width:130px;font-size:9px;background:#f5f5f5}.top-cell{height:42px;font-size:10px;background:#f7f7f7}.vesa-cell{height:65px;font-size:6px;line-height:1.1;background:#f7f7f7}.type-cell{font-size:9px;padding-left:10px!important;text-align:left!important}.data-cell{min-height:70px;border-style:dotted!important;background:#fff!important}.cell-ok,.cell-low,.cell-high,.cell-unknown{background:#fff!important}.count{font-size:9px;margin-bottom:2px}.products-grid{gap:3px}.product-tile{width:42px}.product-img{width:34px;height:28px;margin-bottom:1px;border-radius:1px}.sku-label,.sku-label:visited,.sku-label:hover,.sku-label:active{font-size:6px}.risk-ok{border-width:1px!important}.risk-low,.risk-high{border-width:2px!important}.margin-title,.margin-cell{background:#29c7c8;height:32px;font-size:9px!important;font-weight:700!important;border-color:#fff!important}</style>
 
-    <div class="title-block">
-      <h1>СЕГМЕНТАЦИЯ<br>ТВ-СТОЕК</h1>
-      <h3>ПО НАГРУЗКЕ, VESA, ДИАГОНАЛИ</h3>
-    </div>
 
-    <div class="legend">
-        <div class="legend-item"><span class="legend-box legend-low"></span> нагрузка ниже диагонали</div>
-        <div class="legend-item"><span class="legend-box legend-ok"></span> нагрузка соответствует диагонали</div>
-        <div class="legend-item"><span class="legend-box legend-high"></span> нагрузка выше диагонали</div>
-        <div class="legend-item"><span class="legend-box legend-unknown"></span> нагрузка не определена</div>
-    </div>
     """,
     unsafe_allow_html=True,
 )
@@ -788,19 +778,44 @@ with st.spinner("Загружаю файл и картинки..."):
     df = prepare_df(str(DATA_FILE), DATA_FILE.stat().st_mtime)
 
 st.markdown("""<style>
-[data-testid="stMainBlockContainer"]{max-width:1120px!important;margin:0 auto!important;padding:18px 24px!important}[data-testid="stMain"] .matrix-wrap{max-width:1000px;margin:0 auto}.data-cell{position:relative;min-height:100px!important;padding-bottom:16px!important}.count{position:absolute;left:5px;bottom:3px;margin:0;color:#9a9a9a;font-size:9px!important;font-weight:400!important;line-height:1}.segment-head{font-size:13px!important}.title-block h1{font-size:42px!important;font-weight:900}.title-block h3{font-size:17px!important;font-weight:800}.stButton button{min-width:125px!important;min-height:38px!important;border:0!important;background:#fff!important;color:#050505!important;font-size:16px!important;font-weight:900!important}.stButton button[data-testid="stBaseButton-primary"]{background:#050505!important;color:#fff!important}.stButton{margin-left:6px}.stHorizontalBlock{gap:8px!important}.summary-table{width:100%;max-width:1000px;margin:4px auto 0;border-collapse:collapse;table-layout:fixed;font-family:Arial,sans-serif}.summary-table td{padding:4px 8px;text-align:left;vertical-align:top;border:0}.summary-table span{display:block;color:#4f4f4f;font-size:8px;font-weight:400;line-height:1.1;white-space:nowrap}.summary-table strong{display:block;margin-top:2px;color:#1d1d1d;font-size:12px;font-weight:400;line-height:1.1}</style>""", unsafe_allow_html=True)
+[data-testid="stMainBlockContainer"]{max-width:1120px!important;margin:0 auto!important;padding:18px 24px!important}[data-testid="stMain"] .matrix-wrap{max-width:1000px;margin:0 auto}.data-cell{position:relative;min-height:100px!important;padding-bottom:16px!important}.count{position:absolute;left:5px;bottom:3px;margin:0;color:#9a9a9a;font-size:9px!important;font-weight:400!important;line-height:1}.segment-head{font-size:13px!important}.title-block h1{font-size:42px!important;font-weight:900;line-height:1.02!important;padding-top:4px!important;margin:0!important;overflow:visible!important}.title-block h3{font-size:17px!important;font-weight:800;margin:10px 0 12px!important}.stHorizontalBlock .stButton{margin-top:0!important}.stButton button{min-width:125px!important;min-height:38px!important;border:0!important;background:#fff!important;color:#050505!important;font-size:16px!important;font-weight:900!important}.stButton button[data-testid="stBaseButton-primary"]{background:#050505!important;color:#fff!important}.stButton{margin-left:6px}.stHorizontalBlock{gap:8px!important}.summary-table{width:100%;max-width:1000px;margin:4px auto 0;border-collapse:collapse;table-layout:fixed;font-family:Arial,sans-serif}.summary-table td{padding:4px 8px;text-align:left;vertical-align:top;border:0}.summary-table span{display:block;color:#4f4f4f;font-size:8px;font-weight:400;line-height:1.1;white-space:nowrap}.summary-table strong{display:block;margin-top:2px;color:#1d1d1d;font-size:12px;font-weight:400;line-height:1.1}</style>""", unsafe_allow_html=True)
 series_values = list(df[SERIES_COLUMN].dropna().unique())
+default_series = "ONKRON" if "ONKRON" in series_values else series_values[0]
 if "selected_series" not in st.session_state or st.session_state.selected_series not in series_values:
-    st.session_state.selected_series = series_values[0]
+    st.session_state.selected_series = default_series
 
-with st.container(horizontal=True, horizontal_alignment="right"):
-    for series_name in series_values:
-        if st.button(
-            series_name,
-            key=f"series_button_{series_name}",
-            type="primary" if series_name == st.session_state.selected_series else "secondary",
-        ):
-            st.session_state.selected_series = series_name
+
+def select_series(series_name: str) -> None:
+    st.session_state.selected_series = series_name
+
+
+header_left, header_right = st.columns([3, 2], vertical_alignment="top")
+with header_left:
+    st.markdown(
+        """
+        <div class="title-block">
+          <h1>СЕГМЕНТАЦИЯ<br>ТВ-СТОЕК</h1>
+          <h3>ПО НАГРУЗКЕ, VESA, ДИАГОНАЛИ</h3>
+        </div>
+        <div class="legend">
+            <div class="legend-item"><span class="legend-box legend-low"></span> нагрузка ниже диагонали</div>
+            <div class="legend-item"><span class="legend-box legend-ok"></span> нагрузка соответствует диагонали</div>
+            <div class="legend-item"><span class="legend-box legend-high"></span> нагрузка выше диагонали</div>
+            <div class="legend-item"><span class="legend-box legend-unknown"></span> нагрузка не определена</div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+with header_right:
+    with st.container(horizontal=True, horizontal_alignment="right"):
+        for series_name in series_values:
+            st.button(
+                series_name,
+                key=f"series_button_{series_name}",
+                type="primary" if series_name == st.session_state.selected_series else "secondary",
+                on_click=select_series,
+                args=(series_name,),
+            )
 
 series_df = df[df[SERIES_COLUMN] == st.session_state.selected_series]
 series_segments = active_segments(series_df)
