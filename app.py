@@ -530,14 +530,14 @@ st.markdown(
     .title-block h3 {font-size: 18px; margin-top: 8px; color: #10243a;}
 
     [data-testid="stMain"] div.stButton > button {
-        min-width: 230px;
-        min-height: 82px;
-        padding: 14px 28px;
+        min-width: 128px;
+        min-height: 40px;
+        padding: 8px 18px;
         border: 3px solid #34c8c6;
         border-radius: 10px;
         background: #fff;
         color: #34c8c6;
-        font-size: 27px;
+        font-size: 14px;
         font-weight: 800;
         letter-spacing: 0.02em;
     }
@@ -548,7 +548,7 @@ st.markdown(
         color: #159b99;
     }
 
-    [data-testid="stMain"] div.stButton > button[kind="primary"] {
+    [data-testid="stMain"] div.stButton > button[kind="primary"], [data-testid="stMain"] div.stButton > button[data-testid="stBaseButton-primary"] {
         background: #34c8c6;
         color: #fff;
     }
@@ -780,16 +780,6 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-with st.sidebar:
-    st.header("Настройки")
-    st.caption(f"Файл данных: {DATA_FILE.name}")
-
-    if st.button("Обновить данные"):
-        st.cache_data.clear()
-        st.rerun()
-
-    show_table = st.checkbox("Показать исходную таблицу", value=False)
-
 if not DATA_FILE.exists():
     st.error(
         f"Не найден файл данных: {DATA_FILE}. "
@@ -800,24 +790,11 @@ if not DATA_FILE.exists():
 with st.spinner("Загружаю файл и картинки..."):
     df = prepare_df(str(DATA_FILE), DATA_FILE.stat().st_mtime)
 
-segments_for_export = active_segments(df)
-summary = (
-    df.pivot_table(
-        index=[SERIES_COLUMN, "Type"],
-        columns="segment",
-        values="sku",
-        aggfunc="count",
-        fill_value=0,
-    )
-    .reindex(columns=[s["name"] for s in segments_for_export], fill_value=0)
-    .reset_index()
-)
-
 series_values = list(df[SERIES_COLUMN].dropna().unique())
 if "selected_series" not in st.session_state or st.session_state.selected_series not in series_values:
     st.session_state.selected_series = series_values[0]
 
-with st.container(horizontal=True, horizontal_alignment="left"):
+with st.container(horizontal=True, horizontal_alignment="right"):
     for series_name in series_values:
         if st.button(
             series_name,
@@ -841,16 +818,3 @@ col6.metric("Нагрузка выше диагонали", int((series_df["load
 
 render_matrix(series_df, series_segments)
 
-if show_table:
-    st.subheader("Исходные данные")
-    st.dataframe(df, width="stretch")
-
-buffer = BytesIO()
-summary.to_excel(buffer, index=False)
-
-st.download_button(
-    "Скачать сводную таблицу Excel",
-    data=buffer.getvalue(),
-    file_name="segmentation_summary.xlsx",
-    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-)

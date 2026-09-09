@@ -5,7 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d6c24a3f-3438-4523-bed9-0f1dad16c985" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -63,14 +62,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1781609234649</updated>
-    </task>
-    <task id="LOCAL-00021" summary="5550">
-      <option name="closed" value="true" />
-      <created>1782221285557</created>
-      <option name="number" value="00021" />
-      <option name="presentableId" value="LOCAL-00021" />
-      <option name="project" value="LOCAL" />
-      <updated>1782221285557</updated>
     </task>
     <task id="LOCAL-00022" summary="legend">
       <option name="closed" value="true" />
@@ -456,7 +447,15 @@
       <option name="project" value="LOCAL" />
       <updated>1788265372542</updated>
     </task>
-    <option name="localTasksCounter" value="70" />
+    <task id="LOCAL-00070" summary="new design">
+      <option name="closed" value="true" />
+      <created>1788938050393</created>
+      <option name="number" value="00070" />
+      <option name="presentableId" value="LOCAL-00070" />
+      <option name="project" value="LOCAL" />
+      <updated>1788938050393</updated>
+    </task>
+    <option name="localTasksCounter" value="71" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -477,7 +476,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="categ fix" />
     <MESSAGE value="ts" />
     <MESSAGE value="reverse" />
     <MESSAGE value="img2" />
@@ -502,6 +500,7 @@
     <MESSAGE value="45 kg" />
     <MESSAGE value="1380delet" />
     <MESSAGE value="PR6530E-B" />
-    <option name="LAST_COMMIT_MESSAGE" value="PR6530E-B" />
+    <MESSAGE value="new design" />
+    <option name="LAST_COMMIT_MESSAGE" value="new design" />
   </component>
 </project>
