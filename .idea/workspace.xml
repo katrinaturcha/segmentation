@@ -63,22 +63,6 @@
       <option name="presentableId" value="Default" />
       <updated>1781609234649</updated>
     </task>
-    <task id="LOCAL-00025" summary="fspro">
-      <option name="closed" value="true" />
-      <created>1787213674524</created>
-      <option name="number" value="00025" />
-      <option name="presentableId" value="LOCAL-00025" />
-      <option name="project" value="LOCAL" />
-      <updated>1787213674524</updated>
-    </task>
-    <task id="LOCAL-00026" summary="images">
-      <option name="closed" value="true" />
-      <created>1787215457190</created>
-      <option name="number" value="00026" />
-      <option name="presentableId" value="LOCAL-00026" />
-      <option name="project" value="LOCAL" />
-      <updated>1787215457190</updated>
-    </task>
     <task id="LOCAL-00027" summary="images2">
       <option name="closed" value="true" />
       <created>1787216095363</created>
@@ -455,7 +439,23 @@
       <option name="project" value="LOCAL" />
       <updated>1788939281129</updated>
     </task>
-    <option name="localTasksCounter" value="74" />
+    <task id="LOCAL-00074" summary="margin">
+      <option name="closed" value="true" />
+      <created>1788939729044</created>
+      <option name="number" value="00074" />
+      <option name="presentableId" value="LOCAL-00074" />
+      <option name="project" value="LOCAL" />
+      <updated>1788939729044</updated>
+    </task>
+    <task id="LOCAL-00075" summary="excel upd">
+      <option name="closed" value="true" />
+      <created>1788939981394</created>
+      <option name="number" value="00075" />
+      <option name="presentableId" value="LOCAL-00075" />
+      <option name="project" value="LOCAL" />
+      <updated>1788939981394</updated>
+    </task>
+    <option name="localTasksCounter" value="76" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -476,8 +476,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="order" />
-    <MESSAGE value="newts" />
     <MESSAGE value="DS" />
     <MESSAGE value="DV" />
     <MESSAGE value="DD" />
@@ -501,6 +499,8 @@
     <MESSAGE value="button up" />
     <MESSAGE value="vertical" />
     <MESSAGE value="вв" />
-    <option name="LAST_COMMIT_MESSAGE" value="вв" />
+    <MESSAGE value="margin" />
+    <MESSAGE value="excel upd" />
+    <option name="LAST_COMMIT_MESSAGE" value="excel upd" />
   </component>
 </project>
