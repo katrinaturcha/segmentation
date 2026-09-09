@@ -249,9 +249,8 @@ def build_final_segment(row: pd.Series) -> str:
     return f"{diagonal_segment} / нагрузка не определена"
 
 
-@st.cache_data(show_spinner=False)
-def prepare_df(file_path: str, file_mtime: float) -> pd.DataFrame:
-    df = pd.read_excel(file_path)
+def prepare_dataframe(df: pd.DataFrame) -> pd.DataFrame:
+    df = df.copy()
     df.columns = [str(c).strip() for c in df.columns]
 
     missing = [c for c in REQUIRED_COLUMNS if c not in df.columns]
@@ -273,11 +272,21 @@ def prepare_df(file_path: str, file_mtime: float) -> pd.DataFrame:
     df["load_segment"] = df.apply(detect_load_segment, axis=1)
     df["load_status"] = df.apply(detect_load_status, axis=1)
     df["final_segment"] = df.apply(build_final_segment, axis=1)
-    # Основное размещение в матрице определяется категорией нагрузки.
-    # Диагональ используется только для статуса соответствия нагрузки.
+    # Товар размещается в ячейке по категории диагонали из Excel.
+    # Нагрузка используется только для статуса соответствия.
     df["segment"] = df["diagonal_segment"]
 
     return df
+
+
+@st.cache_data(show_spinner=False)
+def prepare_df(file_path: str, file_mtime: float) -> pd.DataFrame:
+    return prepare_dataframe(pd.read_excel(file_path))
+
+
+@st.cache_data(show_spinner=False)
+def prepare_uploaded_df(file_bytes: bytes) -> pd.DataFrame:
+    return prepare_dataframe(pd.read_excel(BytesIO(file_bytes)))
 
 
 def clean_url(value) -> str:
@@ -767,18 +776,30 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-if not DATA_FILE.exists():
+with st.container(key="excel-upload-area", width=1000):
+    uploaded_excel = st.file_uploader(
+        "Загрузить Excel",
+        type=["xlsx"],
+        key="excel-upload",
+        help="Загрузите обновлённый sample_test_onkron.xlsx. Данные сразу появятся в матрице.",
+        width=210,
+    )
+
+if uploaded_excel is None and not DATA_FILE.exists():
     st.error(
         f"Не найден файл данных: {DATA_FILE}. "
-        f"Положите Excel в папку проекта и назовите его sample_test_onkron.xlsx"
+        f"Загрузите sample_test_onkron.xlsx через кнопку выше."
     )
     st.stop()
 
 with st.spinner("Загружаю файл и картинки..."):
-    df = prepare_df(str(DATA_FILE), DATA_FILE.stat().st_mtime)
+    if uploaded_excel is not None:
+        df = prepare_uploaded_df(uploaded_excel.getvalue())
+    else:
+        df = prepare_df(str(DATA_FILE), DATA_FILE.stat().st_mtime)
 
 st.markdown("""<style>
-[data-testid="stMainBlockContainer"]{max-width:1120px!important;margin:0 auto!important;padding:18px 24px!important}[data-testid="stMain"] .matrix-wrap{max-width:1000px;margin:0 auto}.data-cell{position:relative;min-height:100px!important;padding-bottom:16px!important}.count{position:absolute;left:5px;bottom:3px;margin:0;color:#9a9a9a;font-size:9px!important;font-weight:400!important;line-height:1}.segment-head{font-size:13px!important}.title-block h1{font-size:42px!important;font-weight:900;line-height:1.02!important;padding-top:4px!important;margin:0!important;overflow:visible!important}.title-block h3{font-size:17px!important;font-weight:800;margin:10px 0 12px!important}.stHorizontalBlock .stButton{margin-top:0!important}.stButton button{min-width:134px!important;min-height:34px!important;padding:7px 14px!important;border:0!important;background:#fff!important;color:#050505!important;font-family:"Arial Black",Arial,sans-serif!important;font-size:13px!important;font-weight:800!important;letter-spacing:-.25px!important;white-space:nowrap!important;overflow:visible!important}.stButton button[data-testid="stBaseButton-primary"]{background:#050505!important;color:#fff!important}.stButton{margin-left:6px}.stHorizontalBlock{gap:8px!important}.summary-table{width:100%;max-width:1000px;margin:4px auto 0;border-collapse:collapse;table-layout:fixed;font-family:Arial,sans-serif}.summary-table td{padding:4px 8px;text-align:left;vertical-align:top;border:0}.summary-table span{display:block;color:#4f4f4f;font-size:8px;font-weight:400;line-height:1.1;white-space:nowrap}.summary-table strong{display:block;margin-top:2px;color:#1d1d1d;font-size:12px;font-weight:400;line-height:1.1}</style>""", unsafe_allow_html=True)
+[data-testid="stMainBlockContainer"]{max-width:1120px!important;margin:0 auto!important;padding:18px 24px!important}.st-key-excel-upload-area{margin:0 auto 2px!important}.st-key-excel-upload-area [data-testid="stFileUploader"]{margin:0!important}.st-key-excel-upload-area [data-testid="stFileUploaderDropzone"]{min-height:54px!important;padding:6px 8px!important}[data-testid="stMain"] .matrix-wrap{max-width:1000px;margin:0 auto}.data-cell{position:relative;min-height:100px!important;padding-bottom:16px!important}.count{position:absolute;left:5px;bottom:3px;margin:0;color:#9a9a9a;font-size:9px!important;font-weight:400!important;line-height:1}.segment-head{font-size:13px!important}.title-block h1{font-size:42px!important;font-weight:900;line-height:1.02!important;padding-top:4px!important;margin:0!important;overflow:visible!important}.title-block h3{font-size:17px!important;font-weight:800;margin:10px 0 12px!important}.stHorizontalBlock .stButton{margin-top:0!important}.stButton button{min-width:134px!important;min-height:34px!important;padding:7px 14px!important;border:0!important;background:#fff!important;color:#050505!important;font-family:"Arial Black",Arial,sans-serif!important;font-size:13px!important;font-weight:800!important;letter-spacing:-.25px!important;white-space:nowrap!important;overflow:visible!important}.stButton button[data-testid="stBaseButton-primary"]{background:#050505!important;color:#fff!important}.stButton{margin-left:6px}.stHorizontalBlock{gap:8px!important}.summary-table{width:100%;max-width:1000px;margin:4px auto 0;border-collapse:collapse;table-layout:fixed;font-family:Arial,sans-serif}.summary-table td{padding:4px 8px;text-align:left;vertical-align:top;border:0}.summary-table span{display:block;color:#4f4f4f;font-size:8px;font-weight:400;line-height:1.1;white-space:nowrap}.summary-table strong{display:block;margin-top:2px;color:#1d1d1d;font-size:12px;font-weight:400;line-height:1.1}</style>""", unsafe_allow_html=True)
 series_values = list(df[SERIES_COLUMN].dropna().unique())
 default_series = "ONKRON" if "ONKRON" in series_values else series_values[0]
 if "selected_series" not in st.session_state or st.session_state.selected_series not in series_values:

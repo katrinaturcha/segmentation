@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d6c24a3f-3438-4523-bed9-0f1dad16c985" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -62,14 +63,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1781609234649</updated>
-    </task>
-    <task id="LOCAL-00030" summary="gg2">
-      <option name="closed" value="true" />
-      <created>1787229831686</created>
-      <option name="number" value="00030" />
-      <option name="presentableId" value="LOCAL-00030" />
-      <option name="project" value="LOCAL" />
-      <updated>1787229831686</updated>
     </task>
     <task id="LOCAL-00031" summary="gg23">
       <option name="closed" value="true" />
@@ -455,7 +448,15 @@
       <option name="project" value="LOCAL" />
       <updated>1788942629966</updated>
     </task>
-    <option name="localTasksCounter" value="79" />
+    <task id="LOCAL-00079" summary="font size">
+      <option name="closed" value="true" />
+      <created>1788943086012</created>
+      <option name="number" value="00079" />
+      <option name="presentableId" value="LOCAL-00079" />
+      <option name="project" value="LOCAL" />
+      <updated>1788943086012</updated>
+    </task>
+    <option name="localTasksCounter" value="80" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -476,7 +477,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="load cap" />
     <MESSAGE value="platform" />
     <MESSAGE value="1571W" />
     <MESSAGE value="NEWTS" />
@@ -501,6 +501,7 @@
     <MESSAGE value="new upd" />
     <MESSAGE value="black button" />
     <MESSAGE value="title" />
-    <option name="LAST_COMMIT_MESSAGE" value="title" />
+    <MESSAGE value="font size" />
+    <option name="LAST_COMMIT_MESSAGE" value="font size" />
   </component>
 </project>
