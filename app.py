@@ -17,45 +17,38 @@ DATA_FILE = APP_DIR / "sample_test_onkron.xlsx"
 SEGMENTS = [
     {
         "name": "BASIC",
-        "load_label": "40 kg",
-        "diagonal": '17"-60"',
+        "load_label": "30 kg",
+        "diagonal": '17"-49"',
         "margin": "12%",
-        "vesa": "400x400",
+        "vesa": "75x75, 100x100, 200x100, 200x200, 300x200, 300x300, 400x200, 400x300, 400x400",
     },
     {
         "name": "LIGHT",
-        "load_label": "49 kg",
+        "load_label": "60 kg",
         "diagonal": '32"-65"',
         "margin": "20%",
-        "vesa": "600x400",
+        "vesa": "200x100, 200x200, 300x200, 300x300, 400x200, 400x300, 400x400, 400x500, 600x300, 600x400",
     },
     {
         "name": "STANDART",
         "load_label": "70 kg",
-        "diagonal": '40"-75"',
+        "diagonal": '43"-75"',
         "margin": "25%",
-        "vesa": "800x400",
-    },
-    {
-        "name": "MEDIUM",
-        "load_label": "100 kg",
-        "diagonal": '50"-90"',
-        "margin": "28%",
-        "vesa": "900x600",
+        "vesa": "300x300, 400x200, 400x300, 400x400, 500x400, 500x500, 600x300, 600x400, Prof 600x500, 600x600, 700x400, 700x500, 700x700, 800x400",
     },
     {
         "name": "HEAVY",
         "load_label": "120 kg",
         "diagonal": '60"-100"',
         "margin": "30%",
-        "vesa": "1100x600",
+        "vesa": "400x400, 500x400, 500x500, 600x300, 600x400, 600x500, 600x600, 700x400, 700x500, 700x700, 800x400, 800x600, Prof 900x600, 1000x600, 1000x800, 1100x600",
     },
     {
         "name": "HEAVY XL",
         "load_label": "150 kg",
         "diagonal": '75"-120"',
         "margin": "40%",
-        "vesa": "1500x600",
+        "vesa": "600x400, 600x500, 600x600, 700x400, 700x500, 700x700, 800x600, 900x600, Prof 900x600, 1000x600, 1000x800, 1500x600",
     },
 ]
 
@@ -69,7 +62,7 @@ SEGMENT_ORDER = {
 }
 
 SEGMENT_BY_DIAGONAL = {
-    '17"-60"': "BASIC",
+    '17"-49"': "BASIC",
     '32"-65"': "LIGHT",
     '40"-75"': "STANDART",
     '50"-90"': "MEDIUM",
@@ -151,20 +144,18 @@ def normalize_diagonal_category(value) -> Optional[str]:
     text = re.sub(r"\s+", "", text)
 
     mapping = {
-        '17"-60"': '17"-60"',
-        "17-60": '17"-60"',
-        '17"60"': '17"-60"',
+        '17"-49"': '17"-49"',
+        "17-49": '17"-49"',
+        '17"49"': '17"-49"',
         '32"-65"': '32"-65"',
         "32-65": '32"-65"',
         '32"65"': '32"-65"',
-        '40"-75"': '40"-75"',
-        "40-75": '40"-75"',
-        '40"75"': '40"-75"',
-        '43"-75"': '40"-75"',
-        "43-75": '40"-75"',
-        '50"-90"': '50"-90"',
-        "50-90": '50"-90"',
-        '50"90"': '50"-90"',
+        '43"-75"': '43"-75"',
+        "43-75": '43"-75"',
+        '43"75"': '43"-75"',
+        '40"-75"': '43"-75"',
+        "40-75": '43"-75"',
+        '40"75"': '43"-75"',
         '60"-100"': '60"-100"',
         "60-100": '60"-100"',
         '60"100"': '60"-100"',
@@ -192,7 +183,7 @@ def normalize_load_category(value) -> Optional[int]:
     if number is None:
         return None
 
-    for max_load in [40, 49, 70, 100, 120, 150]:
+    for max_load in [30, 60, 70, 120, 150]:
         if number <= max_load:
             return max_load
 
@@ -763,7 +754,7 @@ st.markdown(
         white-space: nowrap;
     }
     </style>
-    <style>[data-testid="stMain"]{padding:0 22px}.title-block h1{font-size:40px;line-height:.92;color:#050505;letter-spacing:-1px;margin:10px 0 0}.title-block h3{font-size:14px;color:#050505;margin:10px 0 28px}.legend{font-size:9px;gap:10px;margin:0 0 14px}.legend-box{width:11px;height:11px;border-width:1px;border-radius:2px}table.matrix{min-width:0;width:100%}.matrix th,.matrix td{padding:4px;border-color:#1f1f1f}.black-head{width:130px;font-size:9px}.segment-head{height:28px;font-size:14px;background:#999!important;border-radius:5px 5px 0 0}.left-title{width:130px;font-size:9px;background:#f5f5f5}.top-cell{height:42px;font-size:10px;background:#f7f7f7}.vesa-cell{height:65px;font-size:6px;line-height:1.1;background:#f7f7f7}.type-cell{font-size:9px;padding-left:10px!important;text-align:left!important}.data-cell{min-height:70px;border-style:dotted!important;background:#fff!important}.cell-ok,.cell-low,.cell-high,.cell-unknown{background:#fff!important}.count{font-size:9px;margin-bottom:2px}.products-grid{gap:3px}.product-tile{width:42px}.product-img{width:34px;height:28px;margin-bottom:1px;border-radius:1px}.sku-label,.sku-label:visited,.sku-label:hover,.sku-label:active{font-size:6px}.risk-ok{border-width:1px!important}.risk-low,.risk-high{border-width:2px!important}.margin-title,.margin-cell{background:#29c7c8;height:32px;font-size:14px;border-color:#fff!important}</style>
+    <style>[data-testid="stMain"]{padding:0 22px}.title-block h1{font-size:40px;line-height:.92;color:#050505;letter-spacing:-1px;margin:10px 0 0}.title-block h3{font-size:14px;color:#050505;margin:10px 0 28px}.legend{font-size:9px;gap:10px;margin:0 0 14px}.legend-box{width:11px;height:11px;border-width:1px;border-radius:2px}table.matrix{min-width:0;width:100%}.matrix th,.matrix td{padding:4px;border-color:#1f1f1f}.black-head{width:130px;font-size:9px}.segment-head{height:28px;font-size:14px;background:#999!important;border-radius:5px 5px 0 0}.left-title{width:130px;font-size:9px;background:#f5f5f5}.top-cell{height:42px;font-size:10px;background:#f7f7f7}.vesa-cell{height:65px;font-size:6px;line-height:1.1;background:#f7f7f7}.type-cell{font-size:9px;padding-left:10px!important;text-align:left!important}.data-cell{min-height:70px;border-style:dotted!important;background:#fff!important}.cell-ok,.cell-low,.cell-high,.cell-unknown{background:#fff!important}.count{font-size:9px;margin-bottom:2px}.products-grid{gap:3px}.product-tile{width:42px}.product-img{width:34px;height:28px;margin-bottom:1px;border-radius:1px}.sku-label,.sku-label:visited,.sku-label:hover,.sku-label:active{font-size:6px}.risk-ok{border-width:1px!important}.risk-low,.risk-high{border-width:2px!important}.margin-title,.margin-cell{background:#29c7c8;height:32px;font-size:9px!important;font-weight:700!important;border-color:#fff!important}</style>
 
     <div class="title-block">
       <h1>СЕГМЕНТАЦИЯ<br>ТВ-СТОЕК</h1>
