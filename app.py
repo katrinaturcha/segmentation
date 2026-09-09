@@ -790,6 +790,8 @@ if not DATA_FILE.exists():
 with st.spinner("Загружаю файл и картинки..."):
     df = prepare_df(str(DATA_FILE), DATA_FILE.stat().st_mtime)
 
+st.markdown("""<style>
+[data-testid="stMain"] .matrix-wrap{max-width:1050px;margin:0 auto}.data-cell{min-height:115px!important}.segment-head{font-size:13px!important}.title-block h1{font-size:42px!important;font-weight:900}.title-block h3{font-size:17px!important;font-weight:800}.stButton button{min-width:125px!important;min-height:38px!important;border:0!important;background:#fff!important;color:#050505!important;font-size:16px!important;font-weight:900!important}.stButton button[data-testid="stBaseButton-primary"]{background:#050505!important;color:#fff!important}.stButton{margin-left:6px}.stMetric{min-width:105px}.stMetric label{font-size:10px!important}.stMetric [data-testid="stMetricValue"]{font-size:22px!important}</style>""", unsafe_allow_html=True)
 series_values = list(df[SERIES_COLUMN].dropna().unique())
 if "selected_series" not in st.session_state or st.session_state.selected_series not in series_values:
     st.session_state.selected_series = series_values[0]
@@ -806,15 +808,12 @@ with st.container(horizontal=True, horizontal_alignment="right"):
 series_df = df[df[SERIES_COLUMN] == st.session_state.selected_series]
 series_segments = active_segments(series_df)
 
-col1, col2, col3 = st.columns(3)
-col4, col5, col6 = st.columns(3)
-
-col1.metric("Всего SKU", len(series_df))
-col2.metric("Типов", series_df["Type"].nunique())
-col3.metric("Не определено", int((series_df["segment"] == "НЕ ОПРЕДЕЛЕНО").sum()))
-col4.metric("Нагрузка ниже диагонали", int((series_df["load_status"] == "low").sum()))
-col5.metric("Нагрузка соответствует", int((series_df["load_status"] == "ok").sum()))
-col6.metric("Нагрузка выше диагонали", int((series_df["load_status"] == "high").sum()))
-
 render_matrix(series_df, series_segments)
+
+with st.container(horizontal=True, horizontal_alignment="left"):
+    st.metric("Всего SKU", len(series_df))
+    st.metric("Типов", series_df["Type"].nunique())
+    st.metric("Ниже диагонали", int((series_df["load_status"] == "low").sum()))
+    st.metric("Соответствует", int((series_df["load_status"] == "ok").sum()))
+    st.metric("Выше диагонали", int((series_df["load_status"] == "high").sum()))
 
