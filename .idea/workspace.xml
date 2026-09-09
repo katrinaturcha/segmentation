@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d6c24a3f-3438-4523-bed9-0f1dad16c985" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="d6c24a3f-3438-4523-bed9-0f1dad16c985" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -62,14 +60,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1781609234649</updated>
-    </task>
-    <task id="LOCAL-00028" summary="load35">
-      <option name="closed" value="true" />
-      <created>1787216247001</created>
-      <option name="number" value="00028" />
-      <option name="presentableId" value="LOCAL-00028" />
-      <option name="project" value="LOCAL" />
-      <updated>1787216247001</updated>
     </task>
     <task id="LOCAL-00029" summary="gg">
       <option name="closed" value="true" />
@@ -455,7 +445,15 @@
       <option name="project" value="LOCAL" />
       <updated>1788941084620</updated>
     </task>
-    <option name="localTasksCounter" value="77" />
+    <task id="LOCAL-00077" summary="black button">
+      <option name="closed" value="true" />
+      <created>1788942320816</created>
+      <option name="number" value="00077" />
+      <option name="presentableId" value="LOCAL-00077" />
+      <option name="project" value="LOCAL" />
+      <updated>1788942320816</updated>
+    </task>
+    <option name="localTasksCounter" value="78" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -476,7 +474,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="DV" />
     <MESSAGE value="DD" />
     <MESSAGE value="load cap" />
     <MESSAGE value="platform" />
@@ -501,6 +498,7 @@
     <MESSAGE value="margin" />
     <MESSAGE value="excel upd" />
     <MESSAGE value="new upd" />
-    <option name="LAST_COMMIT_MESSAGE" value="new upd" />
+    <MESSAGE value="black button" />
+    <option name="LAST_COMMIT_MESSAGE" value="black button" />
   </component>
 </project>
