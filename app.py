@@ -285,7 +285,7 @@ def prepare_df(file_path: str, file_mtime: float) -> pd.DataFrame:
     df["final_segment"] = df.apply(build_final_segment, axis=1)
     # Основное размещение в матрице определяется категорией нагрузки.
     # Диагональ используется только для статуса соответствия нагрузки.
-    df["segment"] = df["load_segment"]
+    df["segment"] = df["diagonal_segment"]
 
     return df
 
@@ -763,6 +763,7 @@ st.markdown(
         white-space: nowrap;
     }
     </style>
+    <style>[data-testid="stMain"]{padding:0 22px}.title-block h1{font-size:40px;line-height:.92;color:#050505;letter-spacing:-1px;margin:10px 0 0}.title-block h3{font-size:14px;color:#050505;margin:10px 0 28px}.legend{font-size:9px;gap:10px;margin:0 0 14px}.legend-box{width:11px;height:11px;border-width:1px;border-radius:2px}table.matrix{min-width:0;width:100%}.matrix th,.matrix td{padding:4px;border-color:#1f1f1f}.black-head{width:130px;font-size:9px}.segment-head{height:28px;font-size:14px;background:#999!important;border-radius:5px 5px 0 0}.left-title{width:130px;font-size:9px;background:#f5f5f5}.top-cell{height:42px;font-size:10px;background:#f7f7f7}.vesa-cell{height:65px;font-size:6px;line-height:1.1;background:#f7f7f7}.type-cell{font-size:9px;padding-left:10px!important;text-align:left!important}.data-cell{min-height:70px;border-style:dotted!important;background:#fff!important}.cell-ok,.cell-low,.cell-high,.cell-unknown{background:#fff!important}.count{font-size:9px;margin-bottom:2px}.products-grid{gap:3px}.product-tile{width:42px}.product-img{width:34px;height:28px;margin-bottom:1px;border-radius:1px}.sku-label,.sku-label:visited,.sku-label:hover,.sku-label:active{font-size:6px}.risk-ok{border-width:1px!important}.risk-low,.risk-high{border-width:2px!important}.margin-title,.margin-cell{background:#29c7c8;height:32px;font-size:14px;border-color:#fff!important}</style>
 
     <div class="title-block">
       <h1>СЕГМЕНТАЦИЯ<br>ТВ-СТОЕК</h1>
