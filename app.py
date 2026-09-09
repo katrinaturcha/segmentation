@@ -13,6 +13,7 @@ st.set_page_config(page_title="Сегментация ТВ-стоек", layout="
 
 APP_DIR = Path(__file__).resolve().parent
 DATA_FILE = APP_DIR / "sample_test_onkron.xlsx"
+IMAGES_DIR = APP_DIR / "images"
 
 SEGMENTS = [
     {
@@ -337,23 +338,53 @@ def guess_mime(url: str, content_type: str = "") -> str:
 
 
 def find_local_image(source: str) -> Optional[Path]:
-    """Return an image in the project folder, accepting a name without extension."""
+    """Find an image by its Excel value, including a bare file name in images/."""
     try:
         candidate = Path(source)
         if candidate.is_absolute():
             return None
 
-        image_path = (APP_DIR / candidate).resolve()
-        if APP_DIR.resolve() not in image_path.parents:
-            return None
+        image_paths = [(APP_DIR / candidate).resolve()]
+        if candidate.parent == Path("."):
+            image_paths.append((IMAGES_DIR / candidate).resolve())
 
-        paths = [image_path]
-        if not image_path.suffix:
-            paths.extend(image_path.with_suffix(ext) for ext in (".png", ".jpg", ".jpeg", ".webp", ".gif"))
+        variants = []
+        for image_path in image_paths:
+            if APP_DIR.resolve() not in image_path.parents:
+                continue
+            variants.append(image_path)
+            if not image_path.suffix:
+                variants.extend(
+                    image_path.with_suffix(ext)
+                    for ext in (".png", ".jpg", ".jpeg", ".webp", ".gif")
+                )
 
-        return next((path for path in paths if path.is_file()), None)
+        return next((path for path in variants if path.is_file()), None)
     except (OSError, ValueError):
         return None
+
+
+def save_uploaded_images(uploaded_files) -> list[str]:
+    """Save user-uploaded product images into the project's images directory."""
+    allowed_extensions = {".png", ".jpg", ".jpeg", ".webp", ".gif"}
+    IMAGES_DIR.mkdir(parents=True, exist_ok=True)
+    saved_names = []
+
+    for uploaded_file in uploaded_files or []:
+        filename = Path(uploaded_file.name).name
+        if not filename or Path(filename).suffix.lower() not in allowed_extensions:
+            continue
+
+        target = (IMAGES_DIR / filename).resolve()
+        if IMAGES_DIR.resolve() not in target.parents:
+            continue
+
+        content = uploaded_file.getvalue()
+        if not target.exists() or target.read_bytes() != content:
+            target.write_bytes(content)
+        saved_names.append(filename)
+
+    return saved_names
 
 
 @st.cache_data(show_spinner=False)
@@ -776,7 +807,7 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-with st.container(key="excel-upload-area", width=1000):
+with st.container(horizontal=True, key="upload-area", width=1000, gap="small"):
     uploaded_excel = st.file_uploader(
         "Загрузить Excel",
         type=["xlsx"],
@@ -784,6 +815,18 @@ with st.container(key="excel-upload-area", width=1000):
         help="Загрузите обновлённый sample_test_onkron.xlsx. Данные сразу появятся в матрице.",
         width=210,
     )
+    uploaded_images = st.file_uploader(
+        "Загрузить картинки",
+        type=["png", "jpg", "jpeg", "webp", "gif"],
+        accept_multiple_files=True,
+        key="images-upload",
+        help="Файлы сохраняются в папку images и сразу используются карточками товаров.",
+        width=230,
+    )
+
+saved_images = save_uploaded_images(uploaded_images)
+if saved_images:
+    st.caption(f"Добавлено изображений: {len(saved_images)}. Папка: images")
 
 if uploaded_excel is None and not DATA_FILE.exists():
     st.error(
@@ -799,7 +842,7 @@ with st.spinner("Загружаю файл и картинки..."):
         df = prepare_df(str(DATA_FILE), DATA_FILE.stat().st_mtime)
 
 st.markdown("""<style>
-[data-testid="stMainBlockContainer"]{max-width:1120px!important;margin:0 auto!important;padding:18px 24px!important}.st-key-excel-upload-area{margin:0 auto 2px!important}.st-key-excel-upload-area [data-testid="stFileUploader"]{margin:0!important}.st-key-excel-upload-area [data-testid="stFileUploaderDropzone"]{min-height:54px!important;padding:6px 8px!important}[data-testid="stMain"] .matrix-wrap{max-width:1000px;margin:0 auto}.data-cell{position:relative;min-height:100px!important;padding-bottom:16px!important}.count{position:absolute;left:5px;bottom:3px;margin:0;color:#9a9a9a;font-size:9px!important;font-weight:400!important;line-height:1}.segment-head{font-size:13px!important}.title-block h1{font-size:42px!important;font-weight:900;line-height:1.02!important;padding-top:4px!important;margin:0!important;overflow:visible!important}.title-block h3{font-size:17px!important;font-weight:800;margin:10px 0 12px!important}.stHorizontalBlock .stButton{margin-top:0!important}.stButton button{min-width:134px!important;min-height:34px!important;padding:7px 14px!important;border:0!important;background:#fff!important;color:#050505!important;font-family:"Arial Black",Arial,sans-serif!important;font-size:13px!important;font-weight:800!important;letter-spacing:-.25px!important;white-space:nowrap!important;overflow:visible!important}.stButton button[data-testid="stBaseButton-primary"]{background:#050505!important;color:#fff!important}.stButton{margin-left:6px}.stHorizontalBlock{gap:8px!important}.summary-table{width:100%;max-width:1000px;margin:4px auto 0;border-collapse:collapse;table-layout:fixed;font-family:Arial,sans-serif}.summary-table td{padding:4px 8px;text-align:left;vertical-align:top;border:0}.summary-table span{display:block;color:#4f4f4f;font-size:8px;font-weight:400;line-height:1.1;white-space:nowrap}.summary-table strong{display:block;margin-top:2px;color:#1d1d1d;font-size:12px;font-weight:400;line-height:1.1}</style>""", unsafe_allow_html=True)
+[data-testid="stMainBlockContainer"]{max-width:1120px!important;margin:0 auto!important;padding:18px 24px!important}.st-key-upload-area{margin:0 auto 2px!important}.st-key-upload-area [data-testid="stFileUploader"]{margin:0!important}.st-key-upload-area [data-testid="stFileUploaderDropzone"]{min-height:54px!important;padding:6px 8px!important}[data-testid="stMain"] .matrix-wrap{max-width:1000px;margin:0 auto}.data-cell{position:relative;min-height:100px!important;padding-bottom:16px!important}.count{position:absolute;left:5px;bottom:3px;margin:0;color:#9a9a9a;font-size:9px!important;font-weight:400!important;line-height:1}.segment-head{font-size:13px!important}.title-block h1{font-size:42px!important;font-weight:900;line-height:1.02!important;padding-top:4px!important;margin:0!important;overflow:visible!important}.title-block h3{font-size:17px!important;font-weight:800;margin:10px 0 12px!important}.stHorizontalBlock .stButton{margin-top:0!important}.stButton button{min-width:134px!important;min-height:34px!important;padding:7px 14px!important;border:0!important;background:#fff!important;color:#050505!important;font-family:"Arial Black",Arial,sans-serif!important;font-size:13px!important;font-weight:800!important;letter-spacing:-.25px!important;white-space:nowrap!important;overflow:visible!important}.stButton button[data-testid="stBaseButton-primary"]{background:#050505!important;color:#fff!important}.stButton{margin-left:6px}.stHorizontalBlock{gap:8px!important}.summary-table{width:100%;max-width:1000px;margin:4px auto 0;border-collapse:collapse;table-layout:fixed;font-family:Arial,sans-serif}.summary-table td{padding:4px 8px;text-align:left;vertical-align:top;border:0}.summary-table span{display:block;color:#4f4f4f;font-size:8px;font-weight:400;line-height:1.1;white-space:nowrap}.summary-table strong{display:block;margin-top:2px;color:#1d1d1d;font-size:12px;font-weight:400;line-height:1.1}</style>""", unsafe_allow_html=True)
 series_values = list(df[SERIES_COLUMN].dropna().unique())
 default_series = "ONKRON" if "ONKRON" in series_values else series_values[0]
 if "selected_series" not in st.session_state or st.session_state.selected_series not in series_values:
